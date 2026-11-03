@@ -114,8 +114,8 @@ section { scroll-margin-top: 94px; }
 .topic-name { width: 50%; padding-right: 4%; text-align: center; color: #fff; font-family: var(--font-head); font-size: clamp(20px, 2.1vw, 34px); font-weight: 700; line-height: 1.02; -webkit-text-stroke: 1.5px var(--outline); paint-order: stroke fill; text-shadow: -2px -2px 0 var(--outline), 2px -2px 0 var(--outline), -2px 2px 0 var(--outline), 2px 2px 0 var(--outline), 0 4px 0 var(--outline); }
 .topic-name::after { content: ''; display: block; width: 62%; height: 6px; margin: 8px auto 0; border-radius: 6px; background: #FFDA52; transform: rotate(-2deg); box-shadow: 0 1px 0 rgba(16, 35, 56, .35); }
 .topic-card.wide { grid-column: 1 / -1; aspect-ratio: 6 / 1; justify-content: flex-start; }
-.topic-card.wide .topic-art { object-position: left 12%; }
-.topic-card.wide { aspect-ratio: 7 / 1; }
+.topic-card.wide .topic-art { object-position: left 40%; } /* keep the woodpecker's head and the tree hole in view */
+.topic-card.wide { aspect-ratio: 5 / 1; }
 .topic-card.wide .topic-name { width: auto; padding: 0 0 0 40%; font-size: clamp(22px, 2.5vw, 40px); }
 .topic-badge { margin: 0 3% 0 auto; display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px; background: #FFDA52; border-radius: 999px; font-family: var(--font-head); font-weight: 600; font-size: clamp(15px, 1.3vw, 22px); box-shadow: 0 0 0 2.5px var(--outline), 0 4px 0 var(--outline); transform: rotate(-3deg); white-space: nowrap; }
 .topic-card:hover { transform: translateY(-2px); }
