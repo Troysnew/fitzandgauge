@@ -63,9 +63,9 @@ const ICON = {
   facebook: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v6h4v-6h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z"/></svg>`,
   ask: `<span class="ask-q" aria-hidden="true">?</span>`,
   play: `<span class="play-glyph" aria-hidden="true">▶</span>`,
-  gear: `<svg class="heading-gear" viewBox="0 0 40 40" aria-hidden="true"><path fill="#FFC12A" stroke="#102338" stroke-width="2.5" stroke-linejoin="round" d="M17 3h6l1 5 4 2 4-3 4 4-3 4 2 4 5 1v6l-5 1-2 4 3 4-4 4-4-3-4 2-1 5h-6l-1-5-4-2-4 3-4-4 3-4-2-4-5-1v-6l5-1 2-4-3-4 4-4 4 3 4-2z"/><circle cx="20" cy="20" r="6" fill="#fff" stroke="#102338" stroke-width="2.5"/></svg>`,
   arrow: `<svg class="hand-arrow" viewBox="0 0 80 40" aria-hidden="true"><path d="M4 22c10-14 22-14 28-2s16 14 28 0" fill="none" stroke="#F0B914" stroke-width="6" stroke-linecap="round"/><path d="M52 12l11 8-12 6" fill="none" stroke="#F0B914" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 };
+const gear = (prefix) => `<img class="heading-gear" src="${prefix}img/icon-gear-96.webp" srcset="${prefix}img/icon-gear-96.webp 96w, ${prefix}img/icon-gear-192.webp 192w" sizes="(min-width: 2200px) 72px, 48px" width="96" height="102" alt="" aria-hidden="true" />`;
 const rays = (prefix, cls) => `<img class="${cls}" src="${prefix}img/art/decor-rays.svg" alt="" aria-hidden="true" width="320" height="190" />`;
 const social = [
   ["YouTube", channel.youtube, ICON.youtube],
@@ -135,10 +135,10 @@ const metaLine = (ep) => `${esc(catById[ep.category].title)} · ${ep.length ? es
 // ---------------------------------------------------------------- home page
 
 const heroHtml = `<section class="hero" aria-labelledby="hero-title"><div class="hero-overlay"></div><div class="wrap hero-inner">
-<img class="hero-fitz" src="img/fitz-560.webp" srcset="img/fitz-560.webp 560w, img/fitz-1122.webp 1122w" sizes="(min-width: 2200px) 560px, (max-width: 680px) 240px, 25vw" width="1122" height="1402" alt="Fitz, the cheerful orange-haired inventor, pointing up with an idea" fetchpriority="high" />
+<img class="hero-fitz" src="img/fitz-400.webp" srcset="img/fitz-400.webp 400w, img/fitz-776.webp 772w" sizes="(min-width: 2200px) 440px, (max-width: 680px) 200px, 18vw" width="772" height="1350" alt="Fitz, the cheerful orange-haired inventor, pointing up with an idea" fetchpriority="high" />
 <div class="hero-copy"><h1 id="hero-title"><span>Why is the world</span><strong>built like this?</strong></h1><p class="ribbon">Tiny questions. Brilliant answers. A little chaos.</p>
 <div class="hero-actions"><a href="${watchHref(featured)}" ${ext} class="button button-red">${ICON.play} Watch the Latest</a><a href="#mysteries" class="button button-mint"><span aria-hidden="true">⚙</span> Explore Mysteries</a></div></div>
-<img class="hero-gauge" src="img/gauge-540.webp" srcset="img/gauge-540.webp 540w, img/gauge-1086.webp 1086w" sizes="(min-width: 2200px) 540px, (max-width: 680px) 230px, 25vw" width="1086" height="1448" alt="Gauge, the friendly mint-green robot, waving" fetchpriority="high" />
+<img class="hero-gauge" src="img/gauge-520.webp" srcset="img/gauge-520.webp 520w, img/gauge-1054.webp 923w" sizes="(min-width: 2200px) 480px, (max-width: 680px) 170px, 20vw" width="923" height="1193" alt="Gauge, the friendly mint-green robot, waving" fetchpriority="high" />
 </div><div class="hero-wave" aria-hidden="true"></div></section>`;
 
 const latestHtml = (ep) => `<section id="latest" class="latest-section paper" aria-labelledby="latest-heading"><div class="wrap latest-layout">
@@ -150,7 +150,7 @@ ${rays("", "corner-rays")}</article>
 
 const topicLabel = (c) => esc(c.title).replace(" &amp; ", " &amp; <br />").replace(/^(Everyday|City) /, "$1 <br />");
 const topicsHtml = `<section class="topics-section" id="topics" aria-labelledby="topics-heading"><div class="wrap">
-<div class="section-heading"><h2 id="topics-heading">${ICON.gear} Explore the Workshop ${rays("", "heading-rays")}</h2><p>Pick a topic, follow your curiosity, and see how the world works!</p></div>
+<div class="section-heading"><h2 id="topics-heading">${gear("")} Explore the Workshop ${rays("", "heading-rays")}</h2><p>Pick a topic, follow your curiosity, and see how the world works!</p></div>
 <div class="topic-grid">
 ${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img class="topic-art" src="img/${c.art}-1086.webp" srcset="img/${c.art}-1086.webp 1086w, img/${c.art}-2172.webp 2172w" sizes="${c.kicker ? "(min-width: 2200px) 2650px, 92vw" : "(min-width: 2200px) 870px, (max-width: 680px) 46vw, 31vw"}" alt="" width="2172" height="724" loading="lazy" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge"><span aria-hidden="true">📅</span> ${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
 </div></div></section>`;
@@ -171,7 +171,7 @@ ${others.map(card).join("\n")}
 </div></section>`;
 
 const factsHtml = `<section id="facts" class="facts-section" aria-labelledby="facts-heading"><div class="wrap">
-<div class="section-heading"><h2 id="facts-heading">${ICON.gear} How We Check Our Facts</h2><p>Fitz and Gauge are cartoons, but the answers aren't made up.</p></div>
+<div class="section-heading"><h2 id="facts-heading">${gear("")} How We Check Our Facts</h2><p>Fitz and Gauge are cartoons, but the answers aren't made up.</p></div>
 <div class="fact-cards">
 <div class="fact-card"><span class="num n1">1</span><h3>One real question</h3><p>Every episode starts from something you can actually see in the world, and answers just that.</p></div>
 <div class="fact-card"><span class="num n2">2</span><h3>Checked against reliable sources</h3><p>Government agencies, universities, manufacturers and peer-reviewed research. The gags can be silly; the facts can't.</p></div>
@@ -180,20 +180,20 @@ const factsHtml = `<section id="facts" class="facts-section" aria-labelledby="fa
 
 const meetHtml = `<section id="about" class="meet-section" aria-labelledby="meet-heading"><div class="wrap meet-layout">
 <div class="meet-lead"><h2 id="meet-heading">Meet <br />Fitz &amp; Gauge</h2><div class="drawn-underline"></div></div>
-<div class="bio"><div class="portrait fitz-portrait"><img src="img/fitz-560.webp" width="1122" height="1402" alt="Fitz" loading="lazy" /></div><div><h3>Fitz</h3><span class="bio-label yellow">The Curious Inventor</span><p>Fitz has big ideas, asks even bigger questions, and loves figuring out how things work!</p></div></div>
-<div class="bio"><div class="portrait gauge-portrait"><img src="img/gauge-540.webp" width="1086" height="1448" alt="Gauge" loading="lazy" /></div><div><h3>Gauge</h3><span class="bio-label green">The Friendly Robot Helper</span><p>Gauge is super curious, full of fun facts, and always ready to explore, build, and discover!</p></div></div>
+<div class="bio"><div class="portrait fitz-portrait"><img src="img/fitz-400.webp" width="772" height="1350" alt="Fitz" loading="lazy" /></div><div><h3>Fitz</h3><span class="bio-label yellow">The Curious Inventor</span><p>Fitz has big ideas, asks even bigger questions, and loves figuring out how things work!</p></div></div>
+<div class="bio"><div class="portrait gauge-portrait"><img src="img/gauge-520.webp" width="923" height="1193" alt="Gauge" loading="lazy" /></div><div><h3>Gauge</h3><span class="bio-label green">The Friendly Robot Helper</span><p>Gauge is super curious, full of fun facts, and always ready to explore, build, and discover!</p></div></div>
 </div></section>`;
 
 const formOpen = Boolean(form.endpoint);
 const askHtml = `<section id="ask" class="ask-section" aria-labelledby="ask-heading"><div class="wrap ask-layout">
-<img class="ask-decor" src="img/art/decor-jar-books.svg" alt="" aria-hidden="true" width="320" height="190" />
+<img class="ask-decor" src="img/icon-gear-books-220.webp" srcset="img/icon-gear-books-220.webp 220w, img/icon-gear-books-440.webp 440w" sizes="(min-width: 2200px) 190px, 130px" width="440" height="327" alt="" aria-hidden="true" />
 <h2 id="ask-heading">Ask a <br />Question</h2>
 <form id="askForm" ${formOpen ? `action="${esc(form.endpoint)}" method="POST"` : ""} data-open="${formOpen}"><label for="question">What do <strong>YOU</strong> wonder about? Ask Fitz &amp; Gauge!</label>
 <div class="question-input-row"><input id="question" name="question" type="text" maxlength="300" autocomplete="off" placeholder="Type your question here…" required /><button class="button button-red" type="submit"${formOpen ? "" : " disabled"}>➤ Send Question</button></div>
 <p class="ask-note">Please don't include your name or any personal information.</p>
 <p class="form-status">${formOpen ? "" : "The question mailbox opens soon. "}We only collect your question. <a href="privacy.html">Privacy</a></p>
 <p class="ask-thanks" id="askThanks" hidden>Thanks! Your question is on its way to the workshop.</p></form>
-<img class="ask-decor pencil-decor" src="img/art/decor-pencil-cup.svg" alt="" aria-hidden="true" width="320" height="190" />
+<img class="ask-decor pencil-decor" src="img/icon-pencil-cup-220.webp" srcset="img/icon-pencil-cup-220.webp 220w, img/icon-pencil-cup-440.webp 440w" sizes="(min-width: 2200px) 150px, 100px" width="440" height="537" alt="" aria-hidden="true" />
 </div></section>`;
 
 const indexHtml = `${head({
@@ -241,7 +241,7 @@ ${subHero({
   text: esc(ep.summary),
   actions: `<a class="button button-red" href="${watchHref(ep)}" ${ext}>${ICON.play} ${watchLabel(ep)}</a><a class="button button-white" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a>`,
 })}
-<section class="paper sub-body"><div class="wrap narrow"><div class="section-heading"><h2>${ICON.gear} Where this answer comes from</h2></div><p class="sub-intro">Each source below supports one claim in the episode. Links open the original pages.</p>${list}<div class="callout"><h3>How we check our facts</h3><p>Every episode answers one real question, checked against reliable sources: government agencies, universities, manufacturers and peer-reviewed research. Every episode lists its sources. <a class="text-link" href="../index.html#facts">More about our process</a></p></div></div></section>
+<section class="paper sub-body"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} Where this answer comes from</h2></div><p class="sub-intro">Each source below supports one claim in the episode. Links open the original pages.</p>${list}<div class="callout"><h3>How we check our facts</h3><p>Every episode answers one real question, checked against reliable sources: government agencies, universities, manufacturers and peer-reviewed research. Every episode lists its sources. <a class="text-link" href="../index.html#facts">More about our process</a></p></div></div></section>
 </main>
 ${footer("../", "sub")}`;
 };

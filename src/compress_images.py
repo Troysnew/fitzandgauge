@@ -18,8 +18,8 @@ for old in OUT.iterdir():
 JOBS = [
     # source, output stem, widths, quality
     ("fitz-and-gauge-official-logo.png", "logo", [420, 800], 90),   # header logo: 280 CSS px at 1x, 385 at 4K
-    ("fitz_34_idea.png", "fitz", [560, 1122], 88),                   # hero (and portrait crop): up to ~560 CSS px wide at 4K
-    ("gauge_front_wave.png", "gauge", [540, 1086], 88),
+    ("fitz_34_idea.png", "fitz", [400, 776], 88),                    # hero (and portrait crop), trimmed to the character so feet sit on the floor
+    ("gauge_front_wave.png", "gauge", [520, 1054], 88),
 ]
 
 
@@ -31,6 +31,8 @@ def save(im, name, quality):
 
 for src, stem, widths, q in JOBS:
     im = Image.open(SRC / src).convert("RGBA")
+    if stem in ("fitz", "gauge"):
+        im = im.crop(im.getchannel("A").point(lambda a: 255 if a > 8 else 0).getbbox())  # crop to visible pixels (the art has near-invisible margins), so both stand on the same line
     for w in widths:
         r = im if w >= im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
         save(r, f"{stem}-{w}.webp", q)
@@ -46,6 +48,12 @@ for art in sorted((Path(__file__).parent / "topic-art").glob("*.png")):
     im = Image.open(art).convert("RGB")
     for w in (1086, 2172):
         save(im if w >= im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS), f"topic-{art.stem}-{w}.webp", 82)
+
+# Glossy icons (src/icons/*.png, cut from the transparent icon trio): small and 2x sizes, transparency kept.
+for icon in sorted((Path(__file__).parent / "icons").glob("*.png")):
+    im = Image.open(icon).convert("RGBA")
+    for w in ((96, 192) if icon.stem == "icon-gear" else (220, 440)):
+        save(im.resize((w, round(im.height * w / im.width)), Image.LANCZOS), f"{icon.stem}-{w}.webp", 90)
 
 # Workshop backdrop: the kit's 3840x2160 remaster for 4K, a 1920 version for everything else.
 bg = Image.open(SRC / "workshop-background-3840x2160.webp").convert("RGB")
