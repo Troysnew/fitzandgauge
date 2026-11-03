@@ -9,6 +9,7 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "docs");
@@ -17,6 +18,14 @@ const SITE_URL = `https://${DOMAIN}/`;
 const data = JSON.parse(readFileSync(path.join(ROOT, "src/episodes.json"), "utf8").replace(/^﻿/, ""));
 const { channel, categories, episodes, form } = data;
 const catById = Object.fromEntries(categories.map((c) => [c.id, c]));
+
+// Version tag for styles.css and app.js: changes whenever either file changes, so browsers fetch the new copy instead of
+// pairing a cached old stylesheet with new images.
+const ASSET_VERSION = createHash("sha256")
+  .update(readFileSync(path.join(ROOT, "src/site.css")))
+  .update(readFileSync(path.join(ROOT, "src/app.js")))
+  .digest("hex")
+  .slice(0, 10);
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ext = 'target="_blank" rel="noopener"';
@@ -93,7 +102,7 @@ const head = ({ title, description, prefix, canonical }) => `<!DOCTYPE html>
 <link rel="icon" type="image/png" href="${prefix}img/favicon.png" />
 <link rel="apple-touch-icon" href="${prefix}img/apple-touch-icon.png" />
 <link rel="preload" href="${prefix}fonts/fredoka-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="${prefix}styles.css" />
+<link rel="stylesheet" href="${prefix}styles.css?v=${ASSET_VERSION}" />
 </head>
 <body>`;
 
@@ -118,7 +127,7 @@ const footer = (prefix, page) => {
 <div class="social-links">${social.map(([name, href, icon]) => `<a href="${href}" ${ext} aria-label="Fitz &amp; Gauge on ${name}">${icon}<span>${name}</span></a>`).join("")}</div>
 <nav aria-label="Footer navigation"><a href="${h("#home")}">Home</a><a href="${h("#mysteries")}">Mysteries</a><a href="${h("#topics")}">Topics</a><a href="${h("#about")}">About</a><a href="${prefix}privacy.html">Privacy</a></nav>
 </div><div class="wrap footer-small">© 2026 Fitz &amp; Gauge · @fitzandgauge everywhere</div></footer>
-<script src="${prefix}app.js" defer></script>
+<script src="${prefix}app.js?v=${ASSET_VERSION}" defer></script>
 </body>
 </html>
 `;
