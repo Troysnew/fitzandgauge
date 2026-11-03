@@ -74,7 +74,7 @@ const ICON = {
   play: `<span class="play-glyph" aria-hidden="true">▶</span>`,
   arrow: `<svg class="hand-arrow" viewBox="0 0 80 40" aria-hidden="true"><path d="M4 22c10-14 22-14 28-2s16 14 28 0" fill="none" stroke="#F0B914" stroke-width="6" stroke-linecap="round"/><path d="M52 12l11 8-12 6" fill="none" stroke="#F0B914" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 };
-const gear = (prefix) => `<img class="heading-gear" src="${prefix}img/icon-gear-96.webp" srcset="${prefix}img/icon-gear-96.webp 96w, ${prefix}img/icon-gear-192.webp 192w" sizes="(min-width: 2200px) 72px, 48px" width="96" height="102" alt="" aria-hidden="true" />`;
+const gear = (prefix) => `<img class="heading-gear" src="${prefix}img/icon-gear-96.webp" srcset="${prefix}img/icon-gear-96.webp 96w, ${prefix}img/icon-gear-192.webp 192w" sizes="(min-width: 2200px) 72px, 48px" width="96" height="96" alt="" aria-hidden="true" />`;
 const rays = (prefix, cls) => `<img class="${cls}" src="${prefix}img/art/decor-rays.svg" alt="" aria-hidden="true" width="320" height="190" />`;
 const social = [
   ["YouTube", channel.youtube, ICON.youtube],
@@ -195,14 +195,14 @@ const meetHtml = `<section id="about" class="meet-section" aria-labelledby="meet
 
 const formOpen = Boolean(form.endpoint);
 const askHtml = `<section id="ask" class="ask-section" aria-labelledby="ask-heading"><div class="wrap ask-layout">
-<img class="ask-decor" src="img/icon-gear-books-220.webp" srcset="img/icon-gear-books-220.webp 220w, img/icon-gear-books-440.webp 440w" sizes="(min-width: 2200px) 190px, 130px" width="440" height="327" alt="" aria-hidden="true" />
+<img class="ask-decor" src="img/icon-gear-books-220.webp" srcset="img/icon-gear-books-220.webp 220w, img/icon-gear-books-440.webp 440w" sizes="(min-width: 2200px) 190px, 130px" width="440" height="346" alt="" aria-hidden="true" />
 <h2 id="ask-heading">Ask a <br />Question</h2>
 <form id="askForm" ${formOpen ? `action="${esc(form.endpoint)}" method="POST"` : ""} data-open="${formOpen}"><label for="question">What do <strong>YOU</strong> wonder about? Ask Fitz &amp; Gauge!</label>
 <div class="question-input-row"><input id="question" name="question" type="text" maxlength="300" autocomplete="off" placeholder="Type your question here…" required /><button class="button button-red" type="submit"${formOpen ? "" : " disabled"}>➤ Send Question</button></div>
 <p class="ask-note">Please don't include your name or any personal information.</p>
 <p class="form-status">${formOpen ? "" : "The question mailbox opens soon. "}We only collect your question. <a href="privacy.html">Privacy</a></p>
 <p class="ask-thanks" id="askThanks" hidden>Thanks! Your question is on its way to the workshop.</p></form>
-<img class="ask-decor pencil-decor" src="img/icon-pencil-cup-220.webp" srcset="img/icon-pencil-cup-220.webp 220w, img/icon-pencil-cup-440.webp 440w" sizes="(min-width: 2200px) 150px, 100px" width="440" height="537" alt="" aria-hidden="true" />
+<img class="ask-decor pencil-decor" src="img/icon-pencil-cup-220.webp" srcset="img/icon-pencil-cup-220.webp 220w, img/icon-pencil-cup-440.webp 440w" sizes="(min-width: 2200px) 150px, 100px" width="440" height="604" alt="" aria-hidden="true" />
 </div></section>`;
 
 const indexHtml = `${head({
