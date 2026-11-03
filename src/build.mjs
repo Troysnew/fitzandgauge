@@ -294,6 +294,11 @@ writeFileSync(path.join(OUT, "styles.css"), stylesCss);
 copyFileSync(path.join(ROOT, "src/app.js"), path.join(OUT, "app.js"));
 for (const f of readdirSync(path.join(ROOT, "site/img"))) copyFileSync(path.join(ROOT, "site/img", f), path.join(OUT, "img", f));
 for (const f of readdirSync(path.join(ROOT, "src/art"))) copyFileSync(path.join(ROOT, "src/art", f), path.join(OUT, "img/art", f));
+// Finished episode videos (site/media/<slug>.mp4) are served at /media/ so Metricool can fetch them by URL. No page links to them.
+if (existsSync(path.join(ROOT, "site/media"))) {
+  mkdirSync(path.join(OUT, "media"), { recursive: true });
+  for (const f of readdirSync(path.join(ROOT, "site/media"))) copyFileSync(path.join(ROOT, "site/media", f), path.join(OUT, "media", f));
+}
 for (const [, pkg, weights] of fonts) {
   for (const w of weights) {
     const name = `${pkg}-latin-${w}-normal.woff2`;
