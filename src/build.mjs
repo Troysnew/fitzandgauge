@@ -41,14 +41,15 @@ const readSources = (slug) => {
 
 // ---------------------------------------------------------------- episodes: what's latest
 
-// The featured "Latest Mystery" is the newest episode that has premiered by build time; before the first premiere it is
-// the next one coming up. Rebuild after each premiere (and when a video link is added) to move it along.
+// The featured "Latest Mystery" is the newest episode that is actually out, meaning it has a video link; before the
+// first one it is the next one coming up. Going by the premiere date alone would show an episode as out before it posts,
+// so add each episode's YouTube link to episodes.json and rebuild when it goes live.
 const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 const byDate = [...episodes].sort((a, b) => a.premiere.localeCompare(b.premiere));
-const premiered = byDate.filter((e) => e.video || e.premiere <= today);
-const featured = premiered.at(-1) || byDate[0];
+const released = byDate.filter((e) => e.video);
+const featured = released.at(-1) || byDate[0];
 const others = byDate.filter((e) => e !== featured);
-const isUpcoming = (ep) => !ep.video && ep.premiere > today;
+const isUpcoming = (ep) => !ep.video;
 const watchLabel = (ep) => (ep.video ? "Watch the Mystery" : isUpcoming(ep) ? `Premieres ${esc(ep.premiereLabel)}` : "Watch on YouTube");
 const watchHref = (ep) => ep.video || channel.youtube;
 const watchAria = (ep) => esc(ep.video ? `Watch ${ep.title} on YouTube` : isUpcoming(ep) ? `${ep.title} premieres ${ep.premiereLabel} on YouTube` : `${ep.title} on the Fitz & Gauge YouTube channel`);
@@ -151,7 +152,7 @@ const topicLabel = (c) => esc(c.title).replace(" &amp; ", " &amp; <br />").repla
 const topicsHtml = `<section class="topics-section" id="topics" aria-labelledby="topics-heading"><div class="wrap">
 <div class="section-heading"><h2 id="topics-heading">${ICON.gear} Explore the Workshop ${rays("", "heading-rays")}</h2><p>Pick a topic, follow your curiosity, and see how the world works!</p></div>
 <div class="topic-grid">
-${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img src="img/art/${c.art}" alt="" width="320" height="190" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge">${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
+${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img class="topic-art" src="img/${c.art}-1086.webp" srcset="img/${c.art}-1086.webp 1086w, img/${c.art}-2172.webp 2172w" sizes="${c.kicker ? "(min-width: 2200px) 2650px, 92vw" : "(min-width: 2200px) 870px, (max-width: 680px) 46vw, 31vw"}" alt="" width="2172" height="724" loading="lazy" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge"><span aria-hidden="true">📅</span> ${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
 </div></div></section>`;
 
 const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${shortsLabel("")}${isUpcoming(ep) ? `<span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;

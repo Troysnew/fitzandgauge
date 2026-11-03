@@ -14,44 +14,44 @@
     {
       "id": "roads",
       "title": "Roads & Bridges",
-      "art": "topic-roads-bridges.svg",
+      "art": "topic-roads",
       "color": "bridge"
     },
     {
       "id": "buildings",
       "title": "Buildings",
-      "art": "topic-buildings.svg",
+      "art": "topic-buildings",
       "color": "buildings"
     },
     {
       "id": "electricity",
       "title": "Electricity",
-      "art": "topic-electricity.svg",
+      "art": "topic-electricity",
       "color": "electricity"
     },
     {
       "id": "objects",
       "title": "Everyday Objects",
-      "art": "topic-everyday-objects.svg",
+      "art": "topic-objects",
       "color": "objects"
     },
     {
       "id": "machines",
       "title": "Machines",
-      "art": "topic-machines.svg",
+      "art": "topic-machines",
       "color": "machines"
     },
     {
       "id": "city",
       "title": "City Secrets",
-      "art": "topic-city-secrets.svg",
+      "art": "topic-city",
       "color": "city"
     },
     {
       "id": "animals",
       "title": "Animals & Nature",
       "kicker": "New Topic Tuesday",
-      "art": "topic-animals-nature.svg",
+      "art": "topic-animals",
       "color": "animals"
     }
   ],

@@ -41,6 +41,12 @@ for art in sorted((Path(__file__).parent / "episode-art").glob("*.png")):
     for w in (640, 1280):
         save(im.resize((w, round(im.height * w / im.width)), Image.LANCZOS), f"ep-{art.stem}-{w}.webp", 82)
 
+# Topic tile artwork (src/topic-art/<topic id>.png, 2172x724, no text): half size for 1x screens, full size for 2x and 4K.
+for art in sorted((Path(__file__).parent / "topic-art").glob("*.png")):
+    im = Image.open(art).convert("RGB")
+    for w in (1086, 2172):
+        save(im if w >= im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS), f"topic-{art.stem}-{w}.webp", 82)
+
 # Workshop backdrop: the kit's 3840x2160 remaster for 4K, a 1920 version for everything else.
 bg = Image.open(SRC / "workshop-background-3840x2160.webp").convert("RGB")
 save(bg, "workshop-3840.webp", 80)
