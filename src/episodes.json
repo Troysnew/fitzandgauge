@@ -1,0 +1,137 @@
+{
+  "channel": {
+    "youtube": "https://www.youtube.com/@FitzAndGauge",
+    "subscribe": "https://www.youtube.com/@FitzAndGauge?sub_confirmation=1",
+    "facebook": "https://www.facebook.com/fitzandgauge",
+    "tiktok": "https://www.tiktok.com/@fitzandgauge",
+    "instagram": "https://www.instagram.com/fitzandgauge/"
+  },
+  "form": {
+    "service": null,
+    "endpoint": null
+  },
+  "categories": [
+    {
+      "id": "roads",
+      "title": "Roads & Bridges",
+      "art": "topic-roads-bridges.svg",
+      "color": "bridge"
+    },
+    {
+      "id": "buildings",
+      "title": "Buildings",
+      "art": "topic-buildings.svg",
+      "color": "buildings"
+    },
+    {
+      "id": "electricity",
+      "title": "Electricity",
+      "art": "topic-electricity.svg",
+      "color": "electricity"
+    },
+    {
+      "id": "objects",
+      "title": "Everyday Objects",
+      "art": "topic-everyday-objects.svg",
+      "color": "objects"
+    },
+    {
+      "id": "machines",
+      "title": "Machines",
+      "art": "topic-machines.svg",
+      "color": "machines"
+    },
+    {
+      "id": "city",
+      "title": "City Secrets",
+      "art": "topic-city-secrets.svg",
+      "color": "city"
+    },
+    {
+      "id": "animals",
+      "title": "Animals & Nature",
+      "kicker": "New Topic Tuesday",
+      "art": "topic-animals-nature.svg",
+      "color": "animals"
+    }
+  ],
+  "episodes": [
+    {
+      "slug": "airplane-windows",
+      "title": "Why are airplane windows round?",
+      "category": "machines",
+      "length": "36 sec",
+      "premiere": "2026-11-04",
+      "premiereLabel": "Wed Nov 4",
+      "video": null,
+      "summary": "Square windows would show more sky. So why does every airplane have round ones?",
+      "art": "episode-airplane-windows.svg"
+    },
+    {
+      "slug": "airplane-window-hole",
+      "title": "Why do airplane windows have a tiny hole?",
+      "category": "machines",
+      "length": null,
+      "premiere": "2026-11-05",
+      "premiereLabel": "Thu Nov 5",
+      "video": null,
+      "summary": "Look closely at an airplane window and you'll find a tiny hole. Fitz wants to plug it. Should he?",
+      "art": "ep-airplane-window-hole"
+    },
+    {
+      "slug": "stop-signs",
+      "title": "Why are stop signs octagons?",
+      "category": "city",
+      "length": null,
+      "premiere": "2026-11-06",
+      "premiereLabel": "Fri Nov 6",
+      "video": null,
+      "summary": "Fitz wants a round stop sign. Gauge wants to know: is round already taken?",
+      "art": "ep-stop-signs"
+    },
+    {
+      "slug": "pen-caps",
+      "title": "Why do pen caps have a hole in the top?",
+      "category": "objects",
+      "length": null,
+      "premiere": "2026-11-07",
+      "premiereLabel": "Sat Nov 7",
+      "video": null,
+      "summary": "Fitz wants to seal that “pointless” hole for fresher ink. Gauge has questions.",
+      "art": "ep-pen-caps"
+    },
+    {
+      "slug": "train-track-rocks",
+      "title": "Why do train tracks sit on rocks?",
+      "category": "roads",
+      "length": null,
+      "premiere": "2026-11-08",
+      "premiereLabel": "Sun Nov 8",
+      "video": null,
+      "summary": "Piles of rocks look messy. Fitz wants to lay the tracks on plain dirt. Will dirt hold?",
+      "art": "ep-train-track-rocks"
+    },
+    {
+      "slug": "bridge-gaps",
+      "title": "Why do bridges have bumpy metal gaps?",
+      "category": "roads",
+      "length": null,
+      "premiere": "2026-11-09",
+      "premiereLabel": "Mon Nov 9",
+      "video": null,
+      "summary": "Those ka-thunk gaps are annoying, so Fitz is filling them in. What are they for?",
+      "art": "ep-bridge-gaps"
+    },
+    {
+      "slug": "woodpeckers",
+      "title": "How do woodpeckers not hurt their brains?",
+      "category": "animals",
+      "length": null,
+      "premiere": "2026-11-10",
+      "premiereLabel": "Tue Nov 10",
+      "video": null,
+      "summary": "Woodpeckers bang their heads into trees thousands of times a day. How is their brain okay?",
+      "art": "ep-woodpeckers"
+    }
+  ]
+}
