@@ -97,7 +97,7 @@
       "premiere": "2026-11-06",
       "premiereLabel": "Fri Nov 6",
       "video": null,
-      "summary": "Fitz wants to seal that “pointless” hole for fresher ink. Gauge has questions.",
+      "summary": "Gauge wants to seal that “pointless” hole for fresher ink. Fitz says not so fast.",
       "art": "ep-pen-caps"
     },
     {
@@ -108,7 +108,7 @@
       "premiere": "2026-11-07",
       "premiereLabel": "Sat Nov 7",
       "video": null,
-      "summary": "Piles of rocks look messy. Fitz wants to lay the tracks on plain dirt. Will dirt hold?",
+      "summary": "Piles of rocks look messy. Gauge wants to lay the tracks on plain dirt. Will dirt hold?",
       "art": "ep-train-track-rocks"
     },
     {
@@ -119,7 +119,7 @@
       "premiere": "2026-11-08",
       "premiereLabel": "Sun Nov 8",
       "video": null,
-      "summary": "Those ka-thunk gaps are annoying, so Fitz is filling them in. What are they for?",
+      "summary": "Those ka-thunk gaps are annoying, so Gauge wants to fill them in. What are they for?",
       "art": "ep-bridge-gaps"
     },
     {
@@ -132,6 +132,83 @@
       "video": null,
       "summary": "Woodpeckers bang their heads into trees thousands of times a day. How is their brain okay?",
       "art": "ep-woodpeckers"
+    },
+    {
+      "slug": "weep-holes",
+      "title": "Why do brick walls have little holes at the bottom?",
+      "category": "buildings",
+      "length": "37 sec",
+      "premiere": "2026-11-09",
+      "premiereLabel": "Mon Nov 9",
+      "video": null,
+      "summary": "Those little gaps at the bottom of brick walls look like a mistake. Gauge wants to seal them. Should he?",
+      "art": "ep-weep-holes"
+    },
+    {
+      "slug": "honeycomb-hexagons",
+      "title": "How do bees build hexagons?",
+      "category": "animals",
+      "length": "40 sec",
+      "premiere": "2026-11-10",
+      "premiereLabel": "Tue Nov 10",
+      "video": null,
+      "summary": "Bees build their honeycomb out of hexagons. Gauge thinks circles would be better. Why six sides?",
+      "art": "ep-honeycomb-hexagons"
+    },
+    {
+      "slug": "birds-on-power-lines",
+      "title": "Why don't birds get shocked on power lines?",
+      "category": "electricity",
+      "length": "36 sec",
+      "premiere": "2026-11-11",
+      "premiereLabel": "Wed Nov 11",
+      "video": null,
+      "summary": "Birds sit on live wires all day. Gauge wants to give them rubber boots. Do they need them?",
+      "art": "ep-birds-on-power-lines"
+    },
+    {
+      "slug": "keyboard-bumps",
+      "title": "Why do the F and J keys have bumps?",
+      "category": "objects",
+      "length": "34 sec",
+      "premiere": "2026-11-12",
+      "premiereLabel": "Thu Nov 12",
+      "video": null,
+      "summary": "Two keys on every keyboard have tiny bumps. Gauge wants to sand them off. What are they for?",
+      "art": "ep-keyboard-bumps"
+    },
+    {
+      "slug": "skyscraper-dampers",
+      "title": "Why do some skyscrapers have a giant ball inside?",
+      "category": "buildings",
+      "length": "35 sec",
+      "premiere": "2026-11-13",
+      "premiereLabel": "Fri Nov 13",
+      "video": null,
+      "summary": "Some towers hang a giant ball near the top. Gauge wants to cut it out. Why is it there?",
+      "art": "ep-skyscraper-dampers"
+    },
+    {
+      "slug": "manhole-covers",
+      "title": "Why are manhole covers round?",
+      "category": "city",
+      "length": "34 sec",
+      "premiere": "2026-11-14",
+      "premiereLabel": "Sat Nov 14",
+      "video": null,
+      "summary": "Gauge wants a square manhole cover to match the paving. Is round just tradition?",
+      "art": "ep-manhole-covers"
+    },
+    {
+      "slug": "jet-engine-spirals",
+      "title": "Why do jet engines have a spiral in the middle?",
+      "category": "machines",
+      "length": "37 sec",
+      "premiere": "2026-11-15",
+      "premiereLabel": "Sun Nov 15",
+      "video": null,
+      "summary": "Many jet engines have a white spiral in the middle. Gauge wants to paint it plain. What's it for?",
+      "art": "ep-jet-engine-spirals"
     }
   ]
 }
