@@ -17,6 +17,7 @@ for page, html in pages.items():
         if ref.startswith(("http://", "https://")):
             external.add(ref.replace("&amp;", "&"))
             continue
+        ref = ref.split("?", 1)[0]  # version tags like styles.css?v=... point at the same file
         if page.name == "404.html" and ref.startswith("/"):
             target, anchor = (DOCS / ref.lstrip("/").split("#")[0]), None
         else:
