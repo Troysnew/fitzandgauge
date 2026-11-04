@@ -58,6 +58,8 @@ const readSources = (slug) => {
 // first one it is the next one coming up. Going by the premiere date alone would show an episode as out before it posts,
 // so each episode's YouTube link is added when it goes live: by hand in episodes.json, or automatically in videos.json.
 const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
+// Change this by hand whenever the privacy text changes (a build date would change every day the Action runs).
+const PRIVACY_UPDATED = "2026-11-04";
 const byDate = [...episodes].sort((a, b) => a.premiere.localeCompare(b.premiere));
 const released = byDate.filter((e) => e.video);
 const featured = released.at(-1) || byDate[0];
@@ -288,7 +290,7 @@ ${subHero({ prefix: "", back: "index.html", backLabel: "Back to the workshop", k
 <p>Fitz &amp; Gauge is made for curious people of all ages. The form is designed so that nobody, including children, needs to share personal information to send a question.</p>
 <h2>Questions about this page</h2>
 <p>Message us on <a href="${channel.facebook}" ${ext}>our Facebook page</a>.</p>
-<p class="muted">Last updated ${today}.</p>
+<p class="muted">Last updated ${PRIVACY_UPDATED}.</p>
 </div></div></section>
 </main>
 ${footer("", "sub")}`;
