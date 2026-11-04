@@ -17,6 +17,10 @@ const DOMAIN = "fitzandgauge.com";
 const SITE_URL = `https://${DOMAIN}/`;
 const data = JSON.parse(readFileSync(path.join(ROOT, "src/episodes.json"), "utf8").replace(/^﻿/, ""));
 const { channel, categories, episodes, form } = data;
+// YouTube links found by src/update_videos.mjs (run daily by the GitHub Action) fill in any episode without a "video".
+const VIDEOS_FILE = path.join(ROOT, "src/videos.json");
+const foundVideos = existsSync(VIDEOS_FILE) ? JSON.parse(readFileSync(VIDEOS_FILE, "utf8")) : {};
+for (const ep of episodes) if (!ep.video && foundVideos[ep.slug]) ep.video = foundVideos[ep.slug];
 const catById = Object.fromEntries(categories.map((c) => [c.id, c]));
 
 // Version tag for styles.css and app.js: changes whenever either file changes, so browsers fetch the new copy instead of
@@ -52,7 +56,7 @@ const readSources = (slug) => {
 
 // The featured "Latest Mystery" is the newest episode that is actually out, meaning it has a video link; before the
 // first one it is the next one coming up. Going by the premiere date alone would show an episode as out before it posts,
-// so add each episode's YouTube link to episodes.json and rebuild when it goes live.
+// so each episode's YouTube link is added when it goes live: by hand in episodes.json, or automatically in videos.json.
 const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 const byDate = [...episodes].sort((a, b) => a.premiere.localeCompare(b.premiere));
 const released = byDate.filter((e) => e.video);
@@ -166,7 +170,7 @@ const topicsHtml = `<section class="topics-section" id="topics" aria-labelledby=
 ${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img class="topic-art" src="img/${c.art}-1086.webp" srcset="img/${c.art}-1086.webp 1086w, img/${c.art}-2172.webp 2172w" sizes="${c.kicker ? "(min-width: 2200px) 2650px, 92vw" : "(min-width: 2200px) 870px, (max-width: 680px) 46vw, 31vw"}" alt="" width="2172" height="724" loading="lazy" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge"><span aria-hidden="true">📅</span> ${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
 </div></div></section>`;
 
-const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
+const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="soon-badge">Coming soon</span><span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
 
 const usedCats = categories.filter((c) => others.some((e) => e.category === c.id));
 const mysteriesHtml = `<section id="mysteries" class="mysteries-section paper" aria-labelledby="mysteries-heading"><div class="wrap mysteries-layout">
@@ -235,6 +239,12 @@ const episodePage = (ep) => {
   const list = sources.length
     ? `<ol class="source-list">${sources.map((s) => `<li><p>${esc(s.claim)}</p><a class="text-link" href="${esc(s.url)}" ${ext}>${esc(new URL(s.url).hostname.replace(/^www\./, ""))} ↗</a>${s.archive ? `<span class="archive"> · <a class="text-link" href="${esc(s.archive)}" ${ext}>Archived copy ↗</a></span>` : ""}</li>`).join("")}</ol>`
     : `<p class="muted">Sources for this episode will be listed here when it premieres.</p>`;
+  // Click-to-play player (never autoplay: YouTube only counts plays started with its own play button).
+  // youtube-nocookie.com sets no YouTube cookies until the viewer presses play.
+  const vid = ep.video && ep.video.match(/(?:shorts\/|v=|youtu\.be\/)([\w-]{11})/)?.[1];
+  const player = vid
+    ? `<section class="player-section" id="watch"><div class="wrap"><div class="player ${ep.format === "long" ? "wide" : "tall"}"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0" title="${esc(ep.title)} (YouTube video)" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div></section>`
+    : "";
   return `${head({
     title: `${ep.title} | Fitz & Gauge`,
     description: `${ep.summary} Sources and facts for this Fitz & Gauge episode.`,
@@ -250,8 +260,9 @@ ${subHero({
   kicker: metaLine(ep),
   title: esc(ep.title),
   text: esc(ep.summary),
-  actions: `<a class="button button-red" href="${watchHref(ep)}" ${ext}>${ICON.play} ${watchLabel(ep)}</a><a class="button button-white" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a>`,
+  actions: `<a class="button button-red" href="${vid ? "#watch" : watchHref(ep)}"${vid ? "" : ` ${ext}`}>${ICON.play} ${vid ? "Watch it here" : watchLabel(ep)}</a><a class="button button-white" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a>`,
 })}
+${player}
 <section class="paper sub-body"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} Where this answer comes from</h2></div><p class="sub-intro">Each source below supports one claim in the episode. Links open the original pages.</p>${list}<div class="callout"><h3>How we check our facts</h3><p>Every episode answers one real question, checked against reliable sources: government agencies, universities, manufacturers and peer-reviewed research. Every episode lists its sources. <a class="text-link" href="../index.html#facts">More about our process</a></p></div></div></section>
 </main>
 ${footer("../", "sub")}`;
@@ -272,6 +283,7 @@ ${subHero({ prefix: "", back: "index.html", backLabel: "Back to the workshop", k
 <p>Because this is a simple static website, questions are delivered to our inbox by ${service}. That service handles the delivery and may keep submissions for a limited time under its own privacy policy. We keep questions only as long as we need them for planning episodes.</p>
 <h2>Hosting and links</h2>
 <p>This site is hosted on GitHub Pages. Like most web hosts, GitHub may log basic technical information (such as IP addresses) to keep the service secure; see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" ${ext}>GitHub Privacy Statement</a>. Links to YouTube, Instagram, TikTok and Facebook take you to those sites, where their own privacy policies apply.</p>
+<p>Episode pages include a YouTube video player. It uses YouTube's privacy-enhanced mode (youtube-nocookie.com) and never plays on its own. When you press play, the video is streamed by YouTube, and <a href="https://policies.google.com/privacy" ${ext}>Google's Privacy Policy</a> applies to that viewing.</p>
 <h2>Kids</h2>
 <p>Fitz &amp; Gauge is made for curious people of all ages. The form is designed so that nobody, including children, needs to share personal information to send a question.</p>
 <h2>Questions about this page</h2>

@@ -13,4 +13,5 @@ node src/build.mjs              # writes docs/
 
 - Episodes, topics, links and the form endpoint: `src/episodes.json`
 - Sources for each episode: `src/sources/<slug>.md`
+- YouTube links for posted episodes: `src/videos.json`, filled in by `node src/update_videos.mjs` (reads the channel's public feed and matches titles), then rebuild
 - Styles: `src/site.css`; page templates: `src/build.mjs`
