@@ -134,6 +134,8 @@ const footer = (prefix, page) => {
 };
 
 const shortsLabel = (prefix) => `<span class="shorts-label"><img src="${prefix}img/art/decor-shorts-icon.svg" alt="" aria-hidden="true" width="46" height="60" />Shorts</span>`;
+// Long-form deep dives ("format": "long" in episodes.json) get a Case Files badge instead of the Shorts one.
+const formatLabel = (ep, prefix) => (ep.format === "long" ? `<span class="shorts-label"><span aria-hidden="true">🕵️</span>&nbsp;Case Files</span>` : shortsLabel(prefix));
 // Episode art: an SVG from src/art, or a raster thumbnail ("ep-<slug>", made by compress_images.py at 640 and 1280 wide).
 const epArt = (ep, prefix = "") =>
   ep.art.endsWith(".svg")
@@ -152,7 +154,7 @@ const heroHtml = `<section class="hero" aria-labelledby="hero-title"><div class=
 
 const latestHtml = (ep) => `<section id="latest" class="latest-section paper" aria-labelledby="latest-heading"><div class="wrap latest-layout">
 <div class="section-intro"><span class="rays" aria-hidden="true">✧</span><h2 id="latest-heading">Latest Mystery</h2><div class="drawn-underline"></div><p>Check out our newest mystery! Watch, learn, and discover something surprising.</p>${ICON.arrow}</div>
-<article class="feature-card"><a class="feature-visual" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${shortsLabel("")}<img class="play-badge" src="img/art/decor-play.svg" alt="" aria-hidden="true" width="320" height="190" />${ep.length ? `<span class="length">${esc(ep.length)}</span>` : ""}</a>
+<article class="feature-card"><a class="feature-visual" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}<img class="play-badge" src="img/art/decor-play.svg" alt="" aria-hidden="true" width="320" height="190" />${ep.length ? `<span class="length">${esc(ep.length)}</span>` : ""}</a>
 <div class="feature-copy"><span class="meta">${metaLine(ep)}</span><h3>${esc(ep.title)}</h3><p>${esc(ep.summary)}</p><div class="card-actions"><a class="button button-red smaller" href="${watchHref(ep)}" ${ext}>${ICON.play} ${watchLabel(ep)}</a><a class="text-link" href="episodes/${ep.slug}.html">Sources &amp; facts</a></div></div>
 ${rays("", "corner-rays")}</article>
 </div></section>`;
@@ -164,7 +166,7 @@ const topicsHtml = `<section class="topics-section" id="topics" aria-labelledby=
 ${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img class="topic-art" src="img/${c.art}-1086.webp" srcset="img/${c.art}-1086.webp 1086w, img/${c.art}-2172.webp 2172w" sizes="${c.kicker ? "(min-width: 2200px) 2650px, 92vw" : "(min-width: 2200px) 870px, (max-width: 680px) 46vw, 31vw"}" alt="" width="2172" height="724" loading="lazy" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge"><span aria-hidden="true">📅</span> ${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
 </div></div></section>`;
 
-const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${shortsLabel("")}${isUpcoming(ep) ? `<span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
+const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
 
 const usedCats = categories.filter((c) => others.some((e) => e.category === c.id));
 const mysteriesHtml = `<section id="mysteries" class="mysteries-section paper" aria-labelledby="mysteries-heading"><div class="wrap mysteries-layout">

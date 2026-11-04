@@ -209,6 +209,18 @@
       "video": null,
       "summary": "Many jet engines have a white spiral in the middle. Gauge wants to paint it plain. What's it for?",
       "art": "ep-jet-engine-spirals"
+    },
+    {
+      "slug": "citicorp-center",
+      "title": "Why was a New York skyscraper secretly repaired at night?",
+      "category": "buildings",
+      "format": "long",
+      "length": "12 min",
+      "premiere": "2026-11-08",
+      "premiereLabel": "Sun Nov 8",
+      "video": null,
+      "summary": "Case Files: a 59-story tower on stilts, a hidden weakness, and welders working through the night. Gauge has red string. Lots of it.",
+      "art": "ep-citicorp-center"
     }
   ]
 }
