@@ -223,6 +223,18 @@
       "art": "ep-citicorp-center"
     },
     {
+      "slug": "golden-gate-bridge",
+      "title": "Why did the Golden Gate Bridge start humming?",
+      "category": "roads",
+      "format": "long",
+      "length": "13 min",
+      "premiere": "2026-11-15",
+      "premiereLabel": "Sun Nov 15",
+      "video": null,
+      "summary": "Case Files: in 2020, people across San Francisco heard the bridge hum. The answer runs through a bridge experts said couldn't be built, its orange paint, and a bridge built to move.",
+      "art": "ep-golden-gate-bridge"
+    },
+    {
       "slug": "sidewalk-lines",
       "title": "Why do sidewalks have lines?",
       "category": "city",
@@ -298,6 +310,18 @@
       "video": null,
       "summary": "Some roads have grooves cut into them. Gauge wants to pave them smooth. Should he?",
       "art": "ep-grooved-roads"
+    },
+    {
+      "slug": "chicago",
+      "title": "Why did Chicago lift its streets and buildings?",
+      "category": "city",
+      "format": "long",
+      "length": "13 min",
+      "premiere": "2026-11-22",
+      "premiereLabel": "Sun Nov 22",
+      "video": null,
+      "summary": "Case Files: Chicago set out to lift a whole hotel, turned its river around, and dug a giant tunnel. Gauge keeps score in the city's long fight with its own water.",
+      "art": "ep-chicago"
     },
     {
       "slug": "fire-hydrant-colors",
