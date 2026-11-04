@@ -221,6 +221,160 @@
       "video": null,
       "summary": "Case Files: a 59-story tower on stilts, a hidden weakness, and welders working through the night. Gauge has red string. Lots of it.",
       "art": "ep-citicorp-center"
+    },
+    {
+      "slug": "sidewalk-lines",
+      "title": "Why do sidewalks have lines?",
+      "category": "city",
+      "length": "37 sec",
+      "premiere": "2026-11-16",
+      "premiereLabel": "Mon Nov 16",
+      "video": null,
+      "summary": "Sidewalks are covered in straight grooves. Gauge wants to smooth them over. Why are they there?",
+      "art": "ep-sidewalk-lines"
+    },
+    {
+      "slug": "cats-land-feet",
+      "title": "How do cats land on their feet?",
+      "category": "animals",
+      "length": "35 sec",
+      "premiere": "2026-11-17",
+      "premiereLabel": "Tue Nov 17",
+      "video": null,
+      "summary": "A falling cat flips right side up in midair. Gauge thinks it pushed off something. Did it?",
+      "art": "ep-cats-land-feet"
+    },
+    {
+      "slug": "three-prong-plugs",
+      "title": "Why do some plugs have a third round prong?",
+      "category": "electricity",
+      "length": "33 sec",
+      "premiere": "2026-11-18",
+      "premiereLabel": "Wed Nov 18",
+      "video": null,
+      "summary": "Some plugs have a round third prong. Gauge wants to snip it off. What does it do?",
+      "art": "ep-three-prong-plugs"
+    },
+    {
+      "slug": "sink-overflow",
+      "title": "Why do bathroom sinks have a little hole near the top?",
+      "category": "objects",
+      "length": "36 sec",
+      "premiere": "2026-11-19",
+      "premiereLabel": "Thu Nov 19",
+      "video": null,
+      "summary": "There's a little hole near the top of most bathroom sinks. Gauge wants to plug it. What's it for?",
+      "art": "ep-sink-overflow"
+    },
+    {
+      "slug": "revolving-doors",
+      "title": "Why do tall buildings have revolving doors?",
+      "category": "buildings",
+      "length": "35 sec",
+      "premiere": "2026-11-20",
+      "premiereLabel": "Fri Nov 20",
+      "video": null,
+      "summary": "Revolving doors are slow. Gauge wants a normal door instead. Why do tall buildings use them?",
+      "art": "ep-revolving-doors"
+    },
+    {
+      "slug": "plane-winglets",
+      "title": "Why do airplane wings curve up at the tips?",
+      "category": "machines",
+      "length": "35 sec",
+      "premiere": "2026-11-21",
+      "premiereLabel": "Sat Nov 21",
+      "video": null,
+      "summary": "Many airplane wings bend up at the tips. Gauge wants to straighten them. What do they do?",
+      "art": "ep-plane-winglets"
+    },
+    {
+      "slug": "grooved-roads",
+      "title": "Why do some roads have grooves cut into them?",
+      "category": "roads",
+      "length": "34 sec",
+      "premiere": "2026-11-22",
+      "premiereLabel": "Sun Nov 22",
+      "video": null,
+      "summary": "Some roads have grooves cut into them. Gauge wants to pave them smooth. Should he?",
+      "art": "ep-grooved-roads"
+    },
+    {
+      "slug": "fire-hydrant-colors",
+      "title": "Why are fire hydrants painted different colors?",
+      "category": "city",
+      "length": "37 sec",
+      "premiere": "2026-11-23",
+      "premiereLabel": "Mon Nov 23",
+      "video": null,
+      "summary": "Hydrant caps come in different colors. Gauge wants them all the same. Are the colors a code?",
+      "art": "ep-fire-hydrant-colors"
+    },
+    {
+      "slug": "gecko-feet",
+      "title": "How do geckos stick to walls?",
+      "category": "animals",
+      "length": "38 sec",
+      "premiere": "2026-11-24",
+      "premiereLabel": "Tue Nov 24",
+      "video": null,
+      "summary": "Geckos walk up glass. Gauge is sure they use suction cups. Do they?",
+      "art": "ep-gecko-feet"
+    },
+    {
+      "slug": "wind-turbine-blades",
+      "title": "Why do most wind turbines have three blades?",
+      "category": "electricity",
+      "length": "37 sec",
+      "premiere": "2026-11-25",
+      "premiereLabel": "Wed Nov 25",
+      "video": null,
+      "summary": "Most wind turbines have three blades. Gauge wants to add more. Would that help?",
+      "art": "ep-wind-turbine-blades"
+    },
+    {
+      "slug": "fuel-gauge-arrow",
+      "title": "Why is there a little arrow by your fuel gauge?",
+      "category": "machines",
+      "length": "35 sec",
+      "premiere": "2026-11-26",
+      "premiereLabel": "Thu Nov 26",
+      "video": null,
+      "summary": "There's a tiny arrow next to the fuel gauge. Gauge wants to scrape it off. What does it point to?",
+      "art": "ep-fuel-gauge-arrow"
+    },
+    {
+      "slug": "ceiling-tile-holes",
+      "title": "Why do ceiling tiles have tiny holes?",
+      "category": "buildings",
+      "length": "35 sec",
+      "premiere": "2026-11-27",
+      "premiereLabel": "Fri Nov 27",
+      "video": null,
+      "summary": "Office ceiling tiles are full of tiny holes. Gauge wants to fill them in. What are they for?",
+      "art": "ep-ceiling-tile-holes"
+    },
+    {
+      "slug": "bulbous-bows",
+      "title": "Why do big ships have a round bump under the front?",
+      "category": "machines",
+      "length": "35 sec",
+      "premiere": "2026-11-28",
+      "premiereLabel": "Sat Nov 28",
+      "video": null,
+      "summary": "Big ships have a round bump under the waterline at the front. Gauge wants to cut it off. Why is it there?",
+      "art": "ep-bulbous-bows"
+    },
+    {
+      "slug": "road-reflectors",
+      "title": "Why do some roads have little raised reflectors on the lines?",
+      "category": "roads",
+      "length": "35 sec",
+      "premiere": "2026-11-29",
+      "premiereLabel": "Sun Nov 29",
+      "video": null,
+      "summary": "Some road lines have little raised bumps on them. Gauge wants to scrape them off. What are they for?",
+      "art": "ep-road-reflectors"
     }
   ]
 }
