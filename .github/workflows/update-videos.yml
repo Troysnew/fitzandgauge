@@ -1,0 +1,41 @@
+# Once a day, after the 3 PM ET Short posts, look for newly posted videos on YouTube and rebuild the site,
+# so the Latest Mystery, the episode players and the "Coming soon" tags stay current without a manual rebuild.
+# Troy approved this on 2026-11-04. Run it by hand any time from the repo's Actions tab ("Run workflow").
+name: Update videos
+
+on:
+  schedule:
+    # 3:30 PM ET in winter (EST, UTC-5) and in summer (EDT, UTC-4). Running at both hours keeps it right all year.
+    - cron: "30 19 * * *"
+    - cron: "30 20 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-videos
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: node src/update_videos.mjs
+      - run: node src/build.mjs
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/videos.json docs
+          if git diff --cached --quiet; then
+            echo "Nothing new."
+          else
+            git commit -m "Add newly posted video links and rebuild"
+            git push
+          fi
