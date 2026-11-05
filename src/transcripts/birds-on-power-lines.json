@@ -1,0 +1,30 @@
+[
+ {
+  "speaker": "gauge",
+  "text": "This bird is on a live power line. It needs rubber boots."
+ },
+ {
+  "speaker": "fitz",
+  "text": "It's fine without them."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Why isn't it zapped?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "Electricity needs a voltage difference to flow. Both feet sit on one wire, at the same voltage. So almost no current goes through the bird."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Then how do birds get hurt?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "Big wings. A wing can touch a second wire, or a grounded part of the pole. Bird-safe poles space wires wider than big wings, and cover risky parts."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]

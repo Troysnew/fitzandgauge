@@ -59,11 +59,15 @@ const readSources = (slug) => {
 // so each episode's YouTube link is added when it goes live: by hand in episodes.json, or automatically in videos.json.
 const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 // Change this by hand whenever the privacy text changes (a build date would change every day the Action runs).
-const PRIVACY_UPDATED = "2026-11-04";
+const PRIVACY_UPDATED = "2026-11-05";
 const byDate = [...episodes].sort((a, b) => a.premiere.localeCompare(b.premiere));
 const released = byDate.filter((e) => e.video);
 const featured = released.at(-1) || byDate[0];
 const others = byDate.filter((e) => e !== featured);
+// The grid shows only episodes that are out (newest first). Upcoming ones get a short "Coming this week" strip, and their
+// pages stay out of search until the video exists (noindex, not in the sitemap).
+const gridEps = released.filter((e) => e !== featured).reverse();
+const soonEps = byDate.filter((e) => !e.video && e !== featured).slice(0, 5);
 const isUpcoming = (ep) => !ep.video;
 const watchLabel = (ep) => (ep.video ? "Watch the Mystery" : isUpcoming(ep) ? `Premieres ${esc(ep.premiereLabel)}` : "Watch on YouTube");
 const watchHref = (ep) => ep.video || channel.youtube;
@@ -89,11 +93,11 @@ const social = [
   ["Facebook", channel.facebook, ICON.facebook],
 ];
 
-const head = ({ title, description, prefix, canonical }) => `<!DOCTYPE html>
+const head = ({ title, description, prefix, canonical, noindex, image, ld }) => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />${noindex ? '\n<meta name="robots" content="noindex" />' : ""}
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}" />
 <link rel="canonical" href="${SITE_URL}${canonical}" />
@@ -102,7 +106,7 @@ const head = ({ title, description, prefix, canonical }) => `<!DOCTYPE html>
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:url" content="${SITE_URL}${canonical}" />
-<meta property="og:image" content="${SITE_URL}img/share.jpg" />
+<meta property="og:image" content="${SITE_URL}img/${image || "share.jpg"}" />${ld ? `\n<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>` : ""}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="theme-color" content="#2E7F86" />
 <link rel="icon" type="image/png" href="${prefix}img/favicon.png" />
@@ -129,7 +133,7 @@ const footer = (prefix, page) => {
   const h = (hash) => (page === "home" ? hash : `${prefix}index.html${hash}`);
   return `<footer class="site-footer"><div class="wrap footer-inner">
 <a class="footer-logo" href="${prefix}index.html" aria-label="Fitz and Gauge home">${logo(prefix)}</a>
-<p class="footer-tag">Tiny questions. Brilliant answers. A little chaos.</p>
+<p class="footer-tag">The obvious fix, and why engineers didn&#39;t use it.</p>
 <div class="social-links">${social.map(([name, href, icon]) => `<a href="${href}" ${ext} aria-label="Fitz &amp; Gauge on ${name}">${icon}<span>${name}</span></a>`).join("")}</div>
 <nav aria-label="Footer navigation"><a href="${h("#home")}">Home</a><a href="${h("#case-files")}">Case Files</a><a href="${h("#mysteries")}">Mysteries</a><a href="${h("#topics")}">Topics</a><a href="${h("#about")}">About</a><a href="${prefix}privacy.html">Privacy</a></nav>
 </div><div class="wrap footer-small">© 2026 Fitz &amp; Gauge · @fitzandgauge everywhere</div></footer>
@@ -157,13 +161,13 @@ const metaLine = (ep) => `${isCase(ep) ? `${caseName(ep)} · ` : ""}${esc(catByI
 
 const heroHtml = `<section class="hero" aria-labelledby="hero-title"><div class="hero-overlay"></div><div class="wrap hero-inner">
 <img class="hero-fitz" src="img/fitz-400.webp" srcset="img/fitz-400.webp 400w, img/fitz-776.webp 772w" sizes="(min-width: 2200px) 440px, (max-width: 680px) 200px, 18vw" width="772" height="1350" alt="Fitz, the cheerful orange-haired inventor, pointing up with an idea" fetchpriority="high" />
-<div class="hero-copy"><h1 id="hero-title"><span>Why is the world</span><strong>built like this?</strong></h1><p class="ribbon">Tiny questions. Brilliant answers. A little chaos.</p>
+<div class="hero-copy"><h1 id="hero-title"><span>Why is the world</span><strong>built like this?</strong></h1><p class="ribbon">The obvious fix, and why engineers didn&#39;t use it.</p>
 <div class="hero-actions"><a href="${watchHref(featured)}" ${ext} class="button button-red">${ICON.play} Watch the Latest</a><a href="#mysteries" class="button button-mint"><span aria-hidden="true">⚙</span> Explore Mysteries</a></div></div>
 <img class="hero-gauge" src="img/gauge-520.webp" srcset="img/gauge-520.webp 520w, img/gauge-1054.webp 923w" sizes="(min-width: 2200px) 480px, (max-width: 680px) 170px, 20vw" width="923" height="1193" alt="Gauge, the friendly mint-green robot, waving" fetchpriority="high" />
 </div><div class="hero-wave" aria-hidden="true"></div></section>`;
 
 const latestHtml = (ep) => `<section id="latest" class="latest-section paper" aria-labelledby="latest-heading"><div class="wrap latest-layout">
-<div class="section-intro"><span class="rays" aria-hidden="true">✧</span><h2 id="latest-heading">Latest Mystery</h2><div class="drawn-underline"></div><p>Check out our newest mystery! Watch, learn, and discover something surprising.</p>${ICON.arrow}</div>
+<div class="section-intro"><span class="rays" aria-hidden="true">✧</span><h2 id="latest-heading">Latest Mystery</h2><div class="drawn-underline"></div><p>The newest case: the obvious fix, and the real reason it doesn&#39;t work.</p>${ICON.arrow}</div>
 <article class="feature-card"><a class="feature-visual" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}<img class="play-badge" src="img/art/decor-play.svg" alt="" aria-hidden="true" width="320" height="190" />${ep.length ? `<span class="length">${esc(ep.length)}</span>` : ""}</a>
 <div class="feature-copy"><span class="meta">${metaLine(ep)}</span><h3>${esc(ep.title)}</h3><p>${esc(ep.summary)}</p><div class="card-actions"><a class="button button-red smaller" href="${watchHref(ep)}" ${ext}>${ICON.play} ${watchLabel(ep)}</a><a class="text-link" href="episodes/${ep.slug}.html">Sources &amp; facts</a></div></div>
 ${rays("", "corner-rays")}</article>
@@ -178,7 +182,7 @@ ${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" :
 
 // Case Files shelf: every deep dive, newest first, as wide cards. They also stay in the Mysteries grid (with the
 // "Case Files" chip), so the grid remains the full archive.
-const caseEps = byDate.filter(isCase).reverse();
+const caseEps = [...byDate.filter((e) => isCase(e) && e.video).reverse(), ...byDate.filter((e) => isCase(e) && !e.video).slice(0, 1)];
 // The thumbnails carry their own headline and CASE FILE badge, so the shelf keeps the image clear and puts the badges
 // in a row underneath.
 const caseSummary = (ep) => ep.summary.replace(/^Case Files: (.)/, (_, c) => c.toUpperCase());
@@ -194,14 +198,23 @@ ${caseEps.map(caseCard).join("\n")}
 
 const card = (ep) => `<article class="mystery-card${isCase(ep) ? " is-case" : ""}" data-category="${ep.category}" data-format="${isCase(ep) ? "long" : "short"}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="soon-badge">Coming soon</span><span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(isCase(ep) ? caseSummary(ep) : ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
 
-const usedCats = categories.filter((c) => others.some((e) => e.category === c.id));
+const soonCard = (ep) => `<li class="soon-card${isCase(ep) ? " is-case" : ""}"><a href="${channel.subscribe}" ${ext} aria-label="${esc(`${ep.title} premieres ${ep.premiereLabel}. Subscribe on YouTube`)}">${epArt(ep)}<span class="soon-date">${isCase(ep) ? `${caseName(ep)} · ` : ""}${esc(ep.premiereLabel)}</span><span class="soon-title">${esc(ep.title)}</span></a></li>`;
+const soonHtml = soonEps.length
+  ? `<section id="coming" class="soon-section" aria-labelledby="soon-heading"><div class="wrap">
+<div class="soon-heading"><h2 id="soon-heading">Coming this week</h2><p>New Shorts every day at 3 PM ET.</p></div>
+<ul class="soon-cards">
+${soonEps.map(soonCard).join("\n")}
+</ul></div></section>`
+  : "";
+
+const usedCats = categories.filter((c) => gridEps.some((e) => e.category === c.id));
 const mysteriesHtml = `<section id="mysteries" class="mysteries-section paper" aria-labelledby="mysteries-heading"><div class="wrap mysteries-layout">
-<div class="mysteries-lead"><span class="rays" aria-hidden="true">✴</span><h2 id="mysteries-heading">More <br />Mysteries</h2><p>More big questions with surprising answers!</p><a class="pill-link" href="${channel.youtube}/shorts" ${ext}>See All Mysteries →</a></div>
+<div class="mysteries-lead"><span class="rays" aria-hidden="true">✴</span><h2 id="mysteries-heading">More <br />Mysteries</h2><p>More everyday things with surprising reasons behind them.</p><a class="pill-link" href="${channel.youtube}/shorts" ${ext}>See All Mysteries →</a></div>
 <div class="mysteries-main">${
-  others.length
-    ? `<div class="rails"><div class="chips" role="group" aria-label="Filter by topic"><button type="button" class="chip active" data-filter="all">All</button>${others.some(isCase) ? `<button type="button" class="chip chip-case" data-filter="case-files"><span aria-hidden="true">🕵️</span> Case Files</button>` : ""}${usedCats.map((c) => `<button type="button" class="chip" data-filter="${c.id}">${esc(c.title)}</button>`).join("")}</div><label class="search"><span class="sr-only">Search mysteries</span><input id="search" type="search" placeholder="Find a mystery…" /></label></div>
+  gridEps.length
+    ? `<div class="rails"><div class="chips" role="group" aria-label="Filter by topic"><button type="button" class="chip active" data-filter="all">All</button>${gridEps.some(isCase) ? `<button type="button" class="chip chip-case" data-filter="case-files"><span aria-hidden="true">🕵️</span> Case Files</button>` : ""}${usedCats.map((c) => `<button type="button" class="chip" data-filter="${c.id}">${esc(c.title)}</button>`).join("")}</div><label class="search"><span class="sr-only">Search mysteries</span><input id="search" type="search" placeholder="Find a mystery…" /></label></div>
 <div class="mystery-cards" id="cards">
-${others.map(card).join("\n")}
+${gridEps.map(card).join("\n")}
 </div><p class="filter-status" id="filterStatus" aria-live="polite"></p>`
     : `<div class="empty-card"><strong>More mysteries are on the way.</strong> <a class="button button-red smaller" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a></div>`
 }</div>
@@ -217,33 +230,35 @@ const factsHtml = `<section id="facts" class="facts-section" aria-labelledby="fa
 
 const meetHtml = `<section id="about" class="meet-section" aria-labelledby="meet-heading"><div class="wrap meet-layout">
 <div class="meet-lead"><h2 id="meet-heading">Meet <br />Fitz &amp; Gauge</h2><div class="drawn-underline"></div></div>
-<div class="bio"><div class="portrait fitz-portrait"><img src="img/fitz-400.webp" width="772" height="1350" alt="Fitz" loading="lazy" /></div><div><h3>Fitz</h3><span class="bio-label yellow">The Curious Inventor</span><p>Fitz has big ideas, asks even bigger questions, and loves figuring out how things work!</p></div></div>
-<div class="bio"><div class="portrait gauge-portrait"><img src="img/gauge-520.webp" width="923" height="1193" alt="Gauge" loading="lazy" /></div><div><h3>Gauge</h3><span class="bio-label green">The Friendly Robot Helper</span><p>Gauge is super curious, full of fun facts, and always ready to explore, build, and discover!</p></div></div>
+<div class="bio"><div class="portrait fitz-portrait"><img src="img/fitz-400.webp" width="772" height="1350" alt="Fitz" loading="lazy" /></div><div><h3>Fitz</h3><span class="bio-label yellow">The Inventor Who Knows Why</span><p>Fitz is a young inventor who has taken apart enough of the world to know why it&#39;s built the way it is. When Gauge pitches the obvious fix, Fitz is the one who stops him and explains what the engineers knew.</p></div></div>
+<div class="bio"><div class="portrait gauge-portrait"><img src="img/gauge-520.webp" width="923" height="1193" alt="Gauge" loading="lazy" /></div><div><h3>Gauge</h3><span class="bio-label green">The Robot With the Obvious Fix</span><p>Gauge is the robot Fitz built, and he&#39;s curious about everything. He&#39;s always first with the obvious fix (seal it, sand it, paint it plain) and first to ask why it won&#39;t work. When the real answer turns up, he&#39;s the most excited one in the room.</p></div></div>
 </div></section>`;
 
 const formOpen = Boolean(form.endpoint);
 const askHtml = `<section id="ask" class="ask-section" aria-labelledby="ask-heading"><div class="wrap ask-layout">
 <img class="ask-decor" src="img/icon-gear-books-220.webp" srcset="img/icon-gear-books-220.webp 220w, img/icon-gear-books-440.webp 440w" sizes="(min-width: 2200px) 190px, 130px" width="440" height="346" alt="" aria-hidden="true" />
 <h2 id="ask-heading">Ask a <br />Question</h2>
-<form id="askForm" ${formOpen ? `action="${esc(form.endpoint)}" method="POST"` : ""} data-open="${formOpen}"><label for="question">What do <strong>YOU</strong> wonder about? Ask Fitz &amp; Gauge!</label>
+${formOpen ? `<form id="askForm" ${formOpen ? `action="${esc(form.endpoint)}" method="POST"` : ""} data-open="${formOpen}"><label for="question">What should Fitz &amp; Gauge investigate next?</label>
 <div class="question-input-row"><input id="question" name="question" type="text" maxlength="300" autocomplete="off" placeholder="Type your question here…" required /><button class="button button-red" type="submit"${formOpen ? "" : " disabled"}>➤ Send Question</button></div>
 <p class="ask-note">Please don't include your name or any personal information.</p>
 <p class="form-status">${formOpen ? "" : "The question mailbox opens soon. "}We only collect your question. <a href="privacy.html">Privacy</a></p>
-<p class="ask-thanks" id="askThanks" hidden>Thanks! Your question is on its way to the workshop.</p></form>
+<p class="ask-thanks" id="askThanks" hidden>Thanks! Your question is on its way to the workshop.</p></form>` : `<div class="ask-closed"><p class="ask-lead">What should Fitz &amp; Gauge investigate next?</p><p>The question mailbox isn&#39;t open yet. Until it is, comment your question on our latest Short. We read every one.</p><a class="button button-red" href="${esc(featured.video || channel.youtube + "/shorts")}" ${ext}>Comment on the latest Short</a></div>`}
 <img class="ask-decor pencil-decor" src="img/icon-pencil-cup-220.webp" srcset="img/icon-pencil-cup-220.webp 220w, img/icon-pencil-cup-440.webp 440w" sizes="(min-width: 2200px) 150px, 100px" width="440" height="604" alt="" aria-hidden="true" />
 </div></section>`;
 
 const indexHtml = `${head({
   title: "Fitz & Gauge | Why is the world built like this?",
-  description: "Tiny questions. Brilliant answers. A little chaos. Short cartoon mysteries about the clever engineering hiding in everyday life.",
+  description: "Why is the world built like this? The obvious fix, and why engineers didn't use it: short cartoon investigations into the engineering hiding in everyday life, with every source listed.",
   prefix: "",
   canonical: "",
+  ld: { "@context": "https://schema.org", "@type": "Organization", name: "Fitz & Gauge", url: SITE_URL, logo: `${SITE_URL}img/apple-touch-icon.png`, sameAs: [channel.youtube, channel.tiktok, channel.instagram, channel.facebook] },
 })}
 ${header("", "home")}
 <main id="home">
 ${heroHtml}
 ${latestHtml(featured)}
 ${caseFilesHtml}
+${soonHtml}
 ${topicsHtml}
 ${mysteriesHtml}
 ${factsHtml}
@@ -257,6 +272,20 @@ ${footer("", "home")}`;
 const subHero = ({ prefix, back, backLabel, kicker, title, text, actions = "" }) =>
   `<section class="sub-hero" style="background-image:url('${prefix}img/workshop-1920.webp')"><div class="hero-overlay"></div><div class="wrap sub-hero-inner">${back ? `<a class="back" href="${back}">← ${backLabel}</a>` : ""}<p class="ribbon">${kicker}</p><h1>${title}</h1><p class="sub-text">${text}</p>${actions ? `<div class="hero-actions left">${actions}</div>` : ""}</div><div class="hero-wave" aria-hidden="true"></div></section>`;
 
+// Transcripts are the fact-checked scripts, word for word (src/transcripts/<slug>.json, made by sync_transcripts.py).
+const readTranscript = (slug) => {
+  const f = path.join(ROOT, "src/transcripts", `${slug}.json`);
+  return existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : [];
+};
+const isoDuration = (len = "") => {
+  const m = String(len).match(/(\d+)\s*(sec|min)/);
+  return m ? (m[2] === "min" ? `PT${m[1]}M` : `PT${m[1]}S`) : undefined;
+};
+const ogImage = (ep) => (existsSync(path.join(ROOT, "site/img", `og-${ep.slug}.jpg`)) ? `og-${ep.slug}.jpg` : undefined);
+const related = (ep) => {
+  const pool = released.filter((e) => e !== ep);
+  return [...pool.filter((e) => e.category === ep.category), ...pool.filter((e) => e.category !== ep.category)].slice(0, 3);
+};
 const episodePage = (ep) => {
   const sources = readSources(ep.slug);
   const list = sources.length
@@ -268,11 +297,35 @@ const episodePage = (ep) => {
   const player = vid
     ? `<section class="player-section" id="watch"><div class="wrap"><div class="player ${ep.format === "long" ? "wide" : "tall"}"><iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0" title="${esc(ep.title)} (YouTube video)" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div></section>`
     : "";
+  const lines = vid ? readTranscript(ep.slug) : [];
+  const transcriptHtml = lines.length
+    ? `<section class="sub-body transcript-section" id="transcript"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} Transcript</h2></div><p class="sub-intro">Every word of the episode, exactly as it was fact-checked.</p><dl class="transcript">${lines.map((l) => `<dt class="${l.speaker === "gauge" ? "gauge" : "fitz"}">${l.speaker === "gauge" ? "Gauge" : "Fitz"}</dt><dd>${esc(l.text)}</dd>`).join("")}</dl></div></section>`
+    : "";
+  const rel = vid ? related(ep) : [];
+  const relatedHtml = rel.length
+    ? `<section class="paper sub-body related-section"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} More cases like this</h2></div><ul class="related-cards">${rel.map((r) => `<li><a href="${r.slug}.html">${epArt(r, "../")}<span>${esc(r.title)}</span></a></li>`).join("")}</ul></div></section>`
+    : "";
   return `${head({
     title: `${ep.title} | Fitz & Gauge`,
     description: `${ep.summary} Sources and facts for this Fitz & Gauge episode.`,
     prefix: "../",
     canonical: `episodes/${ep.slug}.html`,
+    noindex: !ep.video,
+    image: ogImage(ep),
+    ld: vid
+      ? {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          name: ep.title,
+          description: ep.summary,
+          thumbnailUrl: [`${SITE_URL}img/${ogImage(ep) || "share.jpg"}`],
+          uploadDate: ep.premiere,
+          duration: isoDuration(ep.length),
+          embedUrl: `https://www.youtube.com/embed/${vid}`,
+          contentUrl: ep.video,
+          publisher: { "@type": "Organization", name: "Fitz & Gauge", url: SITE_URL },
+        }
+      : undefined,
   })}
 ${header("../", "sub")}
 <main id="home" class="subpage">
@@ -286,7 +339,8 @@ ${subHero({
   actions: `<a class="button button-red" href="${vid ? "#watch" : watchHref(ep)}"${vid ? "" : ` ${ext}`}>${ICON.play} ${vid ? "Watch it here" : watchLabel(ep)}</a><a class="button button-white" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a>`,
 })}
 ${player}
-<section class="paper sub-body"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} Where this answer comes from</h2></div><p class="sub-intro">Each source below supports one claim in the episode. Links open the original pages.</p>${list}<div class="callout"><h3>How we check our facts</h3><p>Every episode answers one real question, checked against reliable sources: government agencies, universities, manufacturers and peer-reviewed research. Every episode lists its sources. <a class="text-link" href="../index.html#facts">More about our process</a></p></div></div></section>
+<section class="paper sub-body"><div class="wrap narrow"><div class="section-heading"><h2>${gear("../")} Where this answer comes from</h2></div><p class="sub-intro">Each source below supports one claim in the episode. Links open the original pages.</p>${list}<div class="callout"><h3>How we check our facts</h3><p>Every episode answers one real question, checked against reliable sources: government agencies, universities, museums, manufacturers, standards bodies, peer-reviewed research, and reputable journalism that quotes experts. Every claim is listed with its source. Spotted a mistake? <a class="text-link" href="${channel.facebook}" ${ext}>Tell us on Facebook</a> and we&#39;ll fix it and say so on this page. <a class="text-link" href="../index.html#facts">More about our process</a></p></div></div></section>
+${transcriptHtml}${relatedHtml}
 </main>
 ${footer("../", "sub")}`;
 };
@@ -307,8 +361,8 @@ ${subHero({ prefix: "", back: "index.html", backLabel: "Back to the workshop", k
 <h2>Hosting and links</h2>
 <p>This site is hosted on GitHub Pages. Like most web hosts, GitHub may log basic technical information (such as IP addresses) to keep the service secure; see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" ${ext}>GitHub Privacy Statement</a>. Links to YouTube, Instagram, TikTok and Facebook take you to those sites, where their own privacy policies apply.</p>
 <p>Episode pages include a YouTube video player. It uses YouTube's privacy-enhanced mode (youtube-nocookie.com) and never plays on its own. When you press play, the video is streamed by YouTube, and <a href="https://policies.google.com/privacy" ${ext}>Google's Privacy Policy</a> applies to that viewing.</p>
-<h2>Kids</h2>
-<p>Fitz &amp; Gauge is made for curious people of all ages. The form is designed so that nobody, including children, needs to share personal information to send a question.</p>
+<h2>Who this site is for</h2>
+<p>Fitz &amp; Gauge is made for curious teens and adults, and isn&#39;t directed at children under 13. The form is designed so that nobody needs to share personal information to send a question.</p>
 <h2>Questions about this page</h2>
 <p>Message us on <a href="${channel.facebook}" ${ext}>our Facebook page</a>.</p>
 <p class="muted">Last updated ${PRIVACY_UPDATED}.</p>
@@ -341,11 +395,7 @@ writeFileSync(path.join(OUT, "styles.css"), stylesCss);
 copyFileSync(path.join(ROOT, "src/app.js"), path.join(OUT, "app.js"));
 for (const f of readdirSync(path.join(ROOT, "site/img"))) copyFileSync(path.join(ROOT, "site/img", f), path.join(OUT, "img", f));
 for (const f of readdirSync(path.join(ROOT, "src/art"))) copyFileSync(path.join(ROOT, "src/art", f), path.join(OUT, "img/art", f));
-// Finished episode videos (site/media/<slug>.mp4) are served at /media/ so Metricool can fetch them by URL. No page links to them.
-if (existsSync(path.join(ROOT, "site/media"))) {
-  mkdirSync(path.join(OUT, "media"), { recursive: true });
-  for (const f of readdirSync(path.join(ROOT, "site/media"))) copyFileSync(path.join(ROOT, "site/media", f), path.join(OUT, "media", f));
-}
+// Episode videos are never published with the site (the repo is public). They reach Metricool through Google Drive.
 for (const [, pkg, weights] of fonts) {
   for (const w of weights) {
     const name = `${pkg}-latin-${w}-normal.woff2`;
@@ -355,6 +405,6 @@ for (const [, pkg, weights] of fonts) {
 writeFileSync(path.join(OUT, "CNAME"), `${DOMAIN}\n`);
 writeFileSync(path.join(OUT, ".nojekyll"), "");
 writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}sitemap.xml\n`);
-const urls = ["", "privacy.html", ...episodes.map((e) => `episodes/${e.slug}.html`)];
+const urls = ["", "privacy.html", ...episodes.filter((e) => e.video).map((e) => `episodes/${e.slug}.html`)];
 writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${SITE_URL}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 console.log(`built ${OUT}: index, ${episodes.length} episode pages, privacy, 404 · latest: ${featured.slug} · ${others.length} more · form ${formOpen ? "open" : "not connected yet"}`);

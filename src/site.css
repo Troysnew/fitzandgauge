@@ -188,14 +188,15 @@ section { scroll-margin-top: 94px; }
 .meet-layout { display: grid; grid-template-columns: 215px minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 32px; }
 .meet-lead h2 { font-size: 41px; }
 .meet-lead .drawn-underline { width: 175px; }
-.bio { display: flex; gap: 16px; align-items: center; }
+.bio { display: flex; gap: 16px; align-items: center; min-width: 0; }
+.bio > div { min-width: 0; }
 .bio .portrait { width: 157px; height: 157px; border: 5px solid #fff; border-radius: 50%; overflow: hidden; flex: none; position: relative; box-shadow: 0 3px 4px rgba(16, 38, 54, .18); }
 .fitz-portrait { background: #F6BC43; }
 .gauge-portrait { background: #A4EBCB; }
 .portrait img { position: absolute; max-width: none; width: 108%; height: auto; left: -2%; top: 2%; }
 .gauge-portrait img { width: 130%; left: -15%; top: -12%; }
 .bio h3 { font-size: 31px; }
-.bio-label { display: inline-block; padding: 4px 11px; border-radius: 10px; font-weight: 900; font-size: 14px; line-height: 1.1; white-space: nowrap; margin-top: 4px; }
+.bio-label { display: inline-block; padding: 4px 11px; border-radius: 10px; font-weight: 900; font-size: 14px; line-height: 1.1; white-space: normal; margin-top: 4px; }
 .bio-label.yellow { background: #FFD342; }
 .bio-label.green { background: #8CE9CA; }
 .bio p { font-size: 15px; line-height: 1.25; font-weight: 800; margin-top: 9px; max-width: 320px; }
@@ -513,3 +514,35 @@ section { scroll-margin-top: 94px; }
   .prose { padding: 50px 56px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+/* question mailbox not open yet */
+.ask-closed { max-width: 640px; }
+.ask-closed .ask-lead { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.35rem; margin: 0 0 .4rem; }
+.ask-closed p { margin: 0 0 1rem; }
+
+/* coming this week */
+.soon-section { padding: 2.2rem 0; background: #FFF8EC; }
+.soon-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; margin-bottom: 1rem; }
+.soon-heading h2 { margin: 0; }
+.soon-heading p { margin: 0; opacity: .8; }
+.soon-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+.soon-card a { display: block; color: inherit; text-decoration: none; background: #fff; border: 3px solid #1C2541; border-radius: 16px; overflow: hidden; height: 100%; }
+.soon-card.is-case a { border-color: #D9413A; }
+.soon-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.soon-date { display: block; padding: .5rem .7rem 0; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: #D9413A; }
+.soon-title { display: block; padding: .2rem .7rem .7rem; font-family: "Fredoka", sans-serif; font-weight: 600; line-height: 1.2; }
+@media (max-width: 1080px) { .soon-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .soon-cards { grid-template-columns: 1fr 1fr; } }
+
+/* episode pages: transcript and related */
+.transcript-section { background: #fff; }
+.transcript { display: grid; grid-template-columns: max-content 1fr; gap: .55rem 1rem; margin: 0; }
+.transcript dt { font-family: "Fredoka", sans-serif; font-weight: 700; }
+.transcript dt.fitz { color: #C46A00; }
+.transcript dt.gauge { color: #2E7F86; }
+.transcript dd { margin: 0; line-height: 1.45; }
+.related-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.related-cards a { display: block; color: inherit; text-decoration: none; background: #fff; border: 3px solid #1C2541; border-radius: 16px; overflow: hidden; height: 100%; }
+.related-cards img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.related-cards span { display: block; padding: .6rem .7rem .8rem; font-family: "Fredoka", sans-serif; font-weight: 600; line-height: 1.2; }
+@media (max-width: 680px) { .related-cards { grid-template-columns: 1fr; } .transcript { grid-template-columns: 1fr; gap: .1rem; } .transcript dd { margin-bottom: .6rem; } }

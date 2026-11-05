@@ -1,0 +1,22 @@
+[
+ {
+  "speaker": "gauge",
+  "text": "This turbine only has three blades. Let's add more!"
+ },
+ {
+  "speaker": "fitz",
+  "text": "More blades catch a bit more wind. But they add weight and cost, for little extra power."
+ },
+ {
+  "speaker": "gauge",
+  "text": "So why not two?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "Two must spin faster for the same power. That's louder.\nAnd two blades are easy to turn one moment, stiff the next. So turning into the wind, the tower twists.\nThree blades balance like a smooth disc.\nSo three is the sweet spot between power, smoothness and cost."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]

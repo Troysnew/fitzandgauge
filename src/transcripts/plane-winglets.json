@@ -1,0 +1,22 @@
+[
+ {
+  "speaker": "gauge",
+  "text": "These airplane wingtips are bent up. I'll straighten them flat!"
+ },
+ {
+  "speaker": "fitz",
+  "text": "Stop. Those bends are on purpose.\nA wing lifts because air pushes harder underneath than on top.\nAt the tip, that air sneaks around to the top and spins into a swirl.\nThat swirl creates what engineers call induced drag."
+ },
+ {
+  "speaker": "gauge",
+  "text": "So the bent tip blocks the swirl?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "It weakens it, so there's less drag.\nOn long flights, that saves a few percent of the fuel."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]

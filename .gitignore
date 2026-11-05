@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 .env
 .env.*
+
+# Episode videos never go in this public repo
+*.mp4
+site/media/
+docs/media/

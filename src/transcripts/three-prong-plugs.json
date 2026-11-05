@@ -1,0 +1,22 @@
+[
+ {
+  "speaker": "gauge",
+  "text": "This plug has a weird third prong. I'll snip it off."
+ },
+ {
+  "speaker": "fitz",
+  "text": "Stop. It's there on purpose."
+ },
+ {
+  "speaker": "gauge",
+  "text": "What does it do?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "It connects the metal case to a ground wire in the wall. Normally, nothing flows through it.\nBut say a worn wire inside touches the case. Without the pin, the case could go live.\nSo the pin gives that current an easy path. It rushes down the ground wire, and the big surge trips the breaker."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]

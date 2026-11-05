@@ -1,0 +1,26 @@
+[
+ {
+  "speaker": "fitz",
+  "text": "This airplane window has a hole in it!\nLooks like a mistake. I'll plug it."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Wait, why is it there?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "There are three panes. The outer one holds the cabin pressure.\nBut the middle one is the backup. It shouldn't be working yet.\nSo this tiny hole lets cabin air into the gap. Equal pressure on both sides, so the middle pane rests."
+ },
+ {
+  "speaker": "gauge",
+  "text": "But what if the outer one cracks?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "The rested middle pane takes over. Rare, but planned for."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]

@@ -1,0 +1,22 @@
+[
+ {
+  "speaker": "gauge",
+  "text": "Big numbers on runways? It's a ranking. I'll repaint them in order."
+ },
+ {
+  "speaker": "fitz",
+  "text": "Wait. It's not a rank. It's a compass direction.\nTake the runway's magnetic heading, divide by ten, and round. Runway 27 points about 270 degrees. West."
+ },
+ {
+  "speaker": "gauge",
+  "text": "And the other end?"
+ },
+ {
+  "speaker": "fitz",
+  "text": "It points the opposite way, about 90 degrees. So it says 9.\nBut magnetic north slowly drifts. When the heading rounds to a new number, the runway gets renamed and repainted."
+ },
+ {
+  "speaker": "gauge",
+  "text": "Ooh, what else is built weird? Subscribe and let's find out."
+ }
+]
