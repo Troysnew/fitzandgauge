@@ -399,6 +399,172 @@
       "video": null,
       "summary": "Some road lines have little raised bumps on them. Gauge wants to scrape them off. What are they for?",
       "art": "ep-road-reflectors"
+    },
+    {
+      "slug": "hoover-dam",
+      "title": "Why is Hoover Dam full of pipes?",
+      "category": "buildings",
+      "format": "long",
+      "length": "13 min",
+      "premiere": "2026-11-29",
+      "premiereLabel": "Sun Nov 29",
+      "video": null,
+      "summary": "Case Files: more than 580 miles of pipe are sealed inside Hoover Dam. Solving why takes the river, the people who built it, and the water that fights back.",
+      "art": "ep-hoover-dam"
+    },
+    {
+      "slug": "willis-tower-tubes",
+      "title": "Why is the Willis Tower built from nine tubes?",
+      "category": "buildings",
+      "length": "41 sec",
+      "premiere": "2026-11-30",
+      "premiereLabel": "Mon Nov 30",
+      "video": null,
+      "summary": "Chicago's Willis Tower steps in as it rises. Gauge thinks nine skinny towers sound flimsy. How does it stand up to the wind?",
+      "art": "ep-willis-tower-tubes"
+    },
+    {
+      "slug": "zebra-stripes",
+      "title": "Why do zebras have stripes?",
+      "category": "animals",
+      "length": "38 sec",
+      "premiere": "2026-12-01",
+      "premiereLabel": "Tue Dec 1",
+      "video": null,
+      "summary": "Gauge is sure zebra stripes are camouflage against lions. The leading explanation is something much smaller.",
+      "art": "ep-zebra-stripes"
+    },
+    {
+      "slug": "banked-curves",
+      "title": "Why do highway curves tilt?",
+      "category": "roads",
+      "length": "36 sec",
+      "premiere": "2026-12-02",
+      "premiereLabel": "Wed Dec 2",
+      "video": null,
+      "summary": "Highway curves lean toward the inside. Gauge wants to flatten them. Why are they tilted, and why only a little?",
+      "art": "ep-banked-curves"
+    },
+    {
+      "slug": "soda-can-bottoms",
+      "title": "Why is the bottom of a soda can curved inward?",
+      "category": "objects",
+      "length": "35 sec",
+      "premiere": "2026-12-03",
+      "premiereLabel": "Thu Dec 3",
+      "video": null,
+      "summary": "Soda cans have a dome pushed into the bottom. Gauge wants to pop it flat. What is it for?",
+      "art": "ep-soda-can-bottoms"
+    },
+    {
+      "slug": "power-line-balls",
+      "title": "Why do some power lines have big orange balls?",
+      "category": "electricity",
+      "length": "40 sec",
+      "premiere": "2026-12-04",
+      "premiereLabel": "Fri Dec 4",
+      "video": null,
+      "summary": "Some power lines carry big orange and white balls. Gauge thinks they're decorations. Who are they really for?",
+      "art": "ep-power-line-balls"
+    },
+    {
+      "slug": "fireproof-iron-1871",
+      "title": "Why did \"fireproof\" iron buildings fail in the 1871 Chicago fire?",
+      "category": "buildings",
+      "length": "34 sec",
+      "premiere": "2026-12-05",
+      "premiereLabel": "Sat Dec 5",
+      "video": null,
+      "summary": "Iron can't burn, so Gauge thinks iron buildings must be fireproof. Chicago's 1871 fire showed what heat does to iron.",
+      "art": "ep-fireproof-iron-1871"
+    },
+    {
+      "slug": "train-wheel-cones",
+      "title": "How do trains turn without a steering wheel?",
+      "category": "machines",
+      "length": "38 sec",
+      "premiere": "2026-12-06",
+      "premiereLabel": "Sun Dec 6",
+      "video": null,
+      "summary": "Trains have no steering wheel. Gauge thinks the lips on the wheels push them around curves. What really steers?",
+      "art": "ep-train-wheel-cones"
+    },
+    {
+      "slug": "jeans-rivets",
+      "title": "Why do jeans have little metal rivets?",
+      "category": "objects",
+      "length": "36 sec",
+      "premiere": "2026-12-07",
+      "premiereLabel": "Mon Dec 7",
+      "video": null,
+      "summary": "Jeans have little metal dots at the pocket corners. Gauge thinks they're decoration. What are they for?",
+      "art": "ep-jeans-rivets"
+    },
+    {
+      "slug": "wrinkly-fingers",
+      "title": "Why do fingers wrinkle in water?",
+      "category": "animals",
+      "length": "38 sec",
+      "premiere": "2026-12-08",
+      "premiereLabel": "Tue Dec 8",
+      "video": null,
+      "summary": "Fingers go wrinkly in the bath. Gauge thinks they soak up water and swell. The real cause starts with your nerves.",
+      "art": "ep-wrinkly-fingers"
+    },
+    {
+      "slug": "cooling-towers",
+      "title": "Why are cooling towers shaped like that?",
+      "category": "electricity",
+      "length": "37 sec",
+      "premiere": "2026-12-09",
+      "premiereLabel": "Wed Dec 9",
+      "video": null,
+      "summary": "Gauge thinks a cooling tower is pumping out smoke. What's that cloud, and why the curvy shape?",
+      "art": "ep-cooling-towers"
+    },
+    {
+      "slug": "runway-numbers",
+      "title": "Why do airport runways have big numbers?",
+      "category": "city",
+      "length": "37 sec",
+      "premiere": "2026-12-10",
+      "premiereLabel": "Thu Dec 10",
+      "video": null,
+      "summary": "Runways have giant numbers painted on each end. Gauge thinks it's a ranking. What do they mean?",
+      "art": "ep-runway-numbers"
+    },
+    {
+      "slug": "skyscraper-setbacks",
+      "title": "Why do old New York skyscrapers look like wedding cakes?",
+      "category": "city",
+      "length": "37 sec",
+      "premiere": "2026-12-11",
+      "premiereLabel": "Fri Dec 11",
+      "video": null,
+      "summary": "Old New York towers step back as they rise. Gauge wants to build straight up. Why the wedding-cake shape?",
+      "art": "ep-skyscraper-setbacks"
+    },
+    {
+      "slug": "microwave-door-mesh",
+      "title": "Why does a microwave door have a metal screen with tiny holes?",
+      "category": "objects",
+      "length": "36 sec",
+      "premiere": "2026-12-12",
+      "premiereLabel": "Sat Dec 12",
+      "video": null,
+      "summary": "A microwave door has a metal screen full of tiny holes. Gauge wants clear glass instead. What does the screen do?",
+      "art": "ep-microwave-door-mesh"
+    },
+    {
+      "slug": "bridge-ices-first",
+      "title": "Why does a bridge freeze before the road?",
+      "category": "roads",
+      "length": "33 sec",
+      "premiere": "2026-12-13",
+      "premiereLabel": "Sun Dec 13",
+      "video": null,
+      "summary": "Gauge wants to take down the \"Bridge ices before road\" sign. Why would a bridge freeze first?",
+      "art": "ep-bridge-ices-first"
     }
   ]
 }
