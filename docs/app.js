@@ -20,12 +20,14 @@
   const cards = $$(".mystery-card");
   const status = $("#filterStatus");
   const names = Object.fromEntries($$("[data-topic]").map((t) => [t.dataset.topic, t.textContent.replace(/New Topic Tuesday/, "").trim()]));
+  names["case-files"] = "Case Files";
   let active = "all";
   const apply = () => {
     const q = ($("#search")?.value || "").toLowerCase().trim();
     let count = 0;
     cards.forEach((card) => {
-      const show = (active === "all" || card.dataset.category === active) && card.dataset.title.toLowerCase().includes(q);
+      const match = active === "all" || (active === "case-files" ? card.dataset.format === "long" : card.dataset.category === active);
+      const show = match && card.dataset.title.toLowerCase().includes(q);
       card.hidden = !show;
       if (show) count++;
     });

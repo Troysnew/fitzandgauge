@@ -131,6 +131,30 @@ section { scroll-margin-top: 94px; }
 .c-bridge { background: #A5E4E0; } .c-buildings { background: #FFDA78; } .c-electricity { background: #FBC0C7; }
 .c-objects { background: #DACAF4; } .c-machines { background: #BCEAFB; } .c-city { background: #B5ECCA; } .c-animals { background: #C9F0B5; }
 
+/* ---------- case files (deep dives): red CASE FILE badge as on the YouTube thumbnails, navy evidence-board shelf ---------- */
+.case-badge { position: absolute; left: 10px; top: 9px; z-index: 1; display: inline-block; padding: 4px 11px; border-radius: 8px; background: #D9413A; color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; border: 2px solid #fff; box-shadow: 0 0 0 2px var(--outline), 0 3px 0 2px rgba(16, 35, 56, .35); }
+.case-tags .case-badge { position: static; }
+.case-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.tag-soon { padding: 3px 10px; border-radius: 999px; background: #FFDA52; color: var(--outline); font-weight: 900; font-size: 12px; box-shadow: 0 0 0 2px var(--outline); text-transform: uppercase; }
+.mystery-card .case-badge { top: auto; bottom: 9px; }
+.case-badge.big { position: static; font-size: 16px; padding: 6px 14px; }
+.case-section { padding: 42px 0 46px; color: #fff; background: radial-gradient(rgba(255, 255, 255, .07) 1.5px, transparent 1.6px) 0 0 / 22px 22px, linear-gradient(160deg, #1C2541, #0E273F); }
+.case-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 22px; }
+.case-heading h2 { font-size: 36px; color: #fff; margin: 0; }
+.case-heading p { flex-basis: 100%; margin: 2px 0 0; font-weight: 700; font-size: 17px; color: #CFE3EC; }
+.case-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.case-card { display: flex; flex-direction: column; background: var(--cream); color: var(--navy); border-radius: 22px; padding: 9px; border: 3px solid #D9413A; box-shadow: 0 6px 14px rgba(0, 0, 0, .35); min-width: 0; }
+.case-thumb { display: block; position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 15px; }
+.case-thumb .art { width: 100%; height: 100%; object-fit: cover; transition: transform .2s; }
+.case-thumb:hover .art { transform: scale(1.03); }
+.case-copy { display: flex; flex-direction: column; gap: 6px; padding: 12px 10px 6px; flex: 1; }
+.case-copy h3 { font-size: 24px; line-height: 1.1; margin: 0; }
+.case-copy p { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.35; color: var(--ink-soft); }
+.case-copy .card-actions { margin-top: auto; padding-top: 6px; }
+.mystery-card.is-case { border-color: #D9413A; box-shadow: 0 0 0 1px #D9413A, 0 3px 3px rgba(16, 38, 54, .18); }
+.chip.chip-case { border-color: #D9413A; color: #B32F29; }
+.chip.chip-case.active { background: #D9413A; border-color: #D9413A; color: #fff; }
+
 /* ---------- more mysteries ---------- */
 .mysteries-section { padding: 40px 0 36px; }
 .mysteries-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 30px; }
@@ -257,6 +281,7 @@ section { scroll-margin-top: 94px; }
 
 /* ---------- tablet ---------- */
 @media (max-width: 1080px) {
+  .case-heading h2 { font-size: 32px; }
   .wrap { width: min(96%, 950px); }
   .site-header { height: 74px; }
   .brand { width: 180px; }
@@ -301,6 +326,10 @@ section { scroll-margin-top: 94px; }
 
 /* ---------- phone ---------- */
 @media (max-width: 680px) {
+  .case-section { padding: 32px 0 36px; }
+  .case-cards { grid-template-columns: 1fr; gap: 16px; }
+  .case-heading h2 { font-size: 28px; }
+  .case-copy h3 { font-size: 21px; }
   .wrap { width: min(92%, 520px); }
   .site-header { height: 66px; }
   .brand { width: 170px; }
@@ -382,6 +411,16 @@ section { scroll-margin-top: 94px; }
 
 /* ---------- 4K ---------- */
 @media (min-width: 2200px) {
+  .case-section { padding: 80px 0; }
+  .case-heading h2 { font-size: 64px; }
+  .case-heading p { font-size: 28px; }
+  .case-badge { font-size: 20px; padding: 6px 16px; }
+  .tag-soon { font-size: 20px; padding: 6px 16px; }
+  .case-badge.big { font-size: 26px; padding: 8px 20px; }
+  .case-cards { gap: 40px; }
+  .case-card { border-radius: 34px; padding: 14px; }
+  .case-copy h3 { font-size: 40px; }
+  .case-copy p { font-size: 24px; }
   .wrap { max-width: 2650px; width: 88%; }
   .wrap.narrow { max-width: 1500px; }
   .site-header { height: 125px; }

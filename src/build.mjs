@@ -117,7 +117,7 @@ const logo = (prefix) =>
 
 const header = (prefix, page) => {
   const h = (hash) => (page === "home" ? hash : `${prefix}index.html${hash}`);
-  const nav = [["Home", h("#home")], ["Mysteries", h("#mysteries")], ["Topics", h("#topics")], ["About", h("#about")]];
+  const nav = [["Home", h("#home")], ["Case Files", h("#case-files")], ["Mysteries", h("#mysteries")], ["Topics", h("#topics")], ["About", h("#about")]];
   return `<header class="site-header"><div class="header-inner wrap">
 <a class="brand" href="${prefix}index.html" aria-label="Fitz and Gauge home">${logo(prefix)}${rays(prefix, "brand-rays")}</a>
 <button type="button" class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
@@ -131,7 +131,7 @@ const footer = (prefix, page) => {
 <a class="footer-logo" href="${prefix}index.html" aria-label="Fitz and Gauge home">${logo(prefix)}</a>
 <p class="footer-tag">Tiny questions. Brilliant answers. A little chaos.</p>
 <div class="social-links">${social.map(([name, href, icon]) => `<a href="${href}" ${ext} aria-label="Fitz &amp; Gauge on ${name}">${icon}<span>${name}</span></a>`).join("")}</div>
-<nav aria-label="Footer navigation"><a href="${h("#home")}">Home</a><a href="${h("#mysteries")}">Mysteries</a><a href="${h("#topics")}">Topics</a><a href="${h("#about")}">About</a><a href="${prefix}privacy.html">Privacy</a></nav>
+<nav aria-label="Footer navigation"><a href="${h("#home")}">Home</a><a href="${h("#case-files")}">Case Files</a><a href="${h("#mysteries")}">Mysteries</a><a href="${h("#topics")}">Topics</a><a href="${h("#about")}">About</a><a href="${prefix}privacy.html">Privacy</a></nav>
 </div><div class="wrap footer-small">© 2026 Fitz &amp; Gauge · @fitzandgauge everywhere</div></footer>
 <script src="${prefix}app.js?v=${ASSET_VERSION}" defer></script>
 </body>
@@ -140,14 +140,18 @@ const footer = (prefix, page) => {
 };
 
 const shortsLabel = (prefix) => `<span class="shorts-label"><img src="${prefix}img/art/decor-shorts-icon.svg" alt="" aria-hidden="true" width="46" height="60" />Shorts</span>`;
-// Long-form deep dives ("format": "long" in episodes.json) get a Case Files badge instead of the Shorts one.
-const formatLabel = (ep, prefix) => (ep.format === "long" ? `<span class="shorts-label"><span aria-hidden="true">🕵️</span>&nbsp;Case Files</span>` : shortsLabel(prefix));
+// Long-form deep dives ("format": "long", "caseNo" in episodes.json) get the red CASE FILE badge from their YouTube
+// thumbnails instead of the Shorts label.
+const isCase = (ep) => ep.format === "long";
+const caseName = (ep) => `Case File${ep.caseNo ? ` #${ep.caseNo}` : ""}`;
+const caseBadge = (ep) => `<span class="case-badge">${caseName(ep)}</span>`;
+const formatLabel = (ep, prefix) => (isCase(ep) ? caseBadge(ep) : shortsLabel(prefix));
 // Episode art: an SVG from src/art, or a raster thumbnail ("ep-<slug>", made by compress_images.py at 640 and 1280 wide).
 const epArt = (ep, prefix = "") =>
   ep.art.endsWith(".svg")
     ? `<img class="art" src="${prefix}img/art/${ep.art}" alt="" width="320" height="190" loading="lazy" />`
     : `<img class="art" src="${prefix}img/${ep.art}-640.webp" srcset="${prefix}img/${ep.art}-640.webp 640w, ${prefix}img/${ep.art}-1280.webp 1280w" sizes="(min-width: 2200px) 800px, (max-width: 680px) 92vw, 33vw" alt="" width="1672" height="941" loading="lazy" />`;
-const metaLine = (ep) => `${esc(catById[ep.category].title)} · ${ep.length ? esc(ep.length) : esc(ep.premiereLabel)}`;
+const metaLine = (ep) => `${isCase(ep) ? `${caseName(ep)} · ` : ""}${esc(catById[ep.category].title)} · ${ep.length ? esc(ep.length) : esc(ep.premiereLabel)}`;
 
 // ---------------------------------------------------------------- home page
 
@@ -172,14 +176,30 @@ const topicsHtml = `<section class="topics-section" id="topics" aria-labelledby=
 ${categories.map((c) => `<a class="topic-card c-${c.color}${c.kicker ? " wide" : ""}" href="#mysteries" data-topic="${c.id}"><img class="topic-art" src="img/${c.art}-1086.webp" srcset="img/${c.art}-1086.webp 1086w, img/${c.art}-2172.webp 2172w" sizes="${c.kicker ? "(min-width: 2200px) 2650px, 92vw" : "(min-width: 2200px) 870px, (max-width: 680px) 46vw, 31vw"}" alt="" width="2172" height="724" loading="lazy" /><span class="topic-name">${topicLabel(c)}</span>${c.kicker ? `<span class="topic-badge"><span aria-hidden="true">📅</span> ${esc(c.kicker)}</span>` : ""}</a>`).join("\n")}
 </div></div></section>`;
 
-const card = (ep) => `<article class="mystery-card" data-category="${ep.category}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="soon-badge">Coming soon</span><span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
+// Case Files shelf: every deep dive, newest first, as wide cards. They also stay in the Mysteries grid (with the
+// "Case Files" chip), so the grid remains the full archive.
+const caseEps = byDate.filter(isCase).reverse();
+// The thumbnails carry their own headline and CASE FILE badge, so the shelf keeps the image clear and puts the badges
+// in a row underneath.
+const caseSummary = (ep) => ep.summary.replace(/^Case Files: (.)/, (_, c) => c.toUpperCase());
+const caseCard = (ep) => `<article class="case-card"><a class="case-thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}</a>
+<div class="case-copy"><div class="case-tags"><span class="case-badge">${caseName(ep)}</span>${isUpcoming(ep) ? `<span class="tag-soon">Coming soon · ${esc(ep.premiereLabel)}</span>` : ""}<span class="meta">${esc(catById[ep.category].title)}${ep.length ? ` · ${esc(ep.length)}` : ""}</span></div><h3>${esc(ep.title)}</h3><p>${esc(caseSummary(ep))}</p><div class="card-actions"><a class="button button-red smaller" href="${watchHref(ep)}" ${ext}>${ICON.play} ${watchLabel(ep)}</a><a class="text-link" href="episodes/${ep.slug}.html">Sources &amp; facts</a></div></div></article>`;
+const caseFilesHtml = caseEps.length
+  ? `<section id="case-files" class="case-section" aria-labelledby="case-heading"><div class="wrap">
+<div class="case-heading"><span class="case-badge big">Case Files</span><h2 id="case-heading">Deep-dive investigations</h2><p>One big mystery, solved clue by clue. New Case Files every Sunday at 10 AM ET.</p></div>
+<div class="case-cards">
+${caseEps.map(caseCard).join("\n")}
+</div></div></section>`
+  : "";
+
+const card = (ep) => `<article class="mystery-card${isCase(ep) ? " is-case" : ""}" data-category="${ep.category}" data-format="${isCase(ep) ? "long" : "short"}" data-title="${esc(ep.title)}"><a class="thumb" href="${watchHref(ep)}" ${ext} aria-label="${watchAria(ep)}">${epArt(ep)}${formatLabel(ep, "")}${isUpcoming(ep) ? `<span class="soon-badge">Coming soon</span><span class="date-badge">${esc(ep.premiereLabel)}</span>` : ""}</a><h3>${esc(ep.title)}</h3><p class="card-summary">${esc(isCase(ep) ? caseSummary(ep) : ep.summary)}</p><div class="card-foot"><span class="meta">${esc(catById[ep.category].title)}</span><a class="text-link" href="episodes/${ep.slug}.html">Sources</a></div></article>`;
 
 const usedCats = categories.filter((c) => others.some((e) => e.category === c.id));
 const mysteriesHtml = `<section id="mysteries" class="mysteries-section paper" aria-labelledby="mysteries-heading"><div class="wrap mysteries-layout">
 <div class="mysteries-lead"><span class="rays" aria-hidden="true">✴</span><h2 id="mysteries-heading">More <br />Mysteries</h2><p>More big questions with surprising answers!</p><a class="pill-link" href="${channel.youtube}/shorts" ${ext}>See All Mysteries →</a></div>
 <div class="mysteries-main">${
   others.length
-    ? `<div class="rails"><div class="chips" role="group" aria-label="Filter by topic"><button type="button" class="chip active" data-filter="all">All</button>${usedCats.map((c) => `<button type="button" class="chip" data-filter="${c.id}">${esc(c.title)}</button>`).join("")}</div><label class="search"><span class="sr-only">Search mysteries</span><input id="search" type="search" placeholder="Find a mystery…" /></label></div>
+    ? `<div class="rails"><div class="chips" role="group" aria-label="Filter by topic"><button type="button" class="chip active" data-filter="all">All</button>${others.some(isCase) ? `<button type="button" class="chip chip-case" data-filter="case-files"><span aria-hidden="true">🕵️</span> Case Files</button>` : ""}${usedCats.map((c) => `<button type="button" class="chip" data-filter="${c.id}">${esc(c.title)}</button>`).join("")}</div><label class="search"><span class="sr-only">Search mysteries</span><input id="search" type="search" placeholder="Find a mystery…" /></label></div>
 <div class="mystery-cards" id="cards">
 ${others.map(card).join("\n")}
 </div><p class="filter-status" id="filterStatus" aria-live="polite"></p>`
@@ -223,6 +243,7 @@ ${header("", "home")}
 <main id="home">
 ${heroHtml}
 ${latestHtml(featured)}
+${caseFilesHtml}
 ${topicsHtml}
 ${mysteriesHtml}
 ${factsHtml}
