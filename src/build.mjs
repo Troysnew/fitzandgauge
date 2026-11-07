@@ -125,7 +125,7 @@ const header = (prefix, page) => {
   return `<header class="site-header"><div class="header-inner wrap">
 <a class="brand" href="${prefix}index.html" aria-label="Fitz and Gauge home">${logo(prefix)}${rays(prefix, "brand-rays")}</a>
 <button type="button" class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
-<nav class="site-nav" id="nav" aria-label="Primary navigation">${nav.map(([label, href], i) => `<a${page === "home" && i === 0 ? ' class="active" aria-current="page"' : ""} href="${href}">${label}</a>`).join("")}<a class="sub-nav" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a><a class="ask-nav" href="${h("#ask")}">${ICON.ask} Ask a Question</a></nav>
+<nav class="site-nav" id="nav" aria-label="Primary navigation">${nav.map(([label, href], i) => `<a${page === "home" && i === 0 ? ' class="active" aria-current="page"' : ""} href="${href}">${label}</a>`).join("")}<a class="sub-nav" href="${channel.subscribe}" ${ext}>${ICON.youtube} Subscribe</a><a class="ask-nav" href="${h("#ask")}">${ICON.ask} Suggest a Topic</a></nav>
 </div></header>`;
 };
 

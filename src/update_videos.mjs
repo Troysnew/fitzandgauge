@@ -18,9 +18,30 @@ const videos = existsSync(VIDEOS) ? JSON.parse(readFileSync(VIDEOS, "utf8")) : {
 const decode = (s) => s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const norm = (s) => decode(s).toLowerCase().replace(/#\w+/g, "").replace(/[^a-z0-9]+/g, " ").trim();
 
-const res = await fetch(FEED, { headers: { "User-Agent": "fitzandgauge.com site updater" } });
-if (!res.ok) throw new Error(`YouTube feed returned HTTP ${res.status}`);
-const xml = await res.text();
+// YouTube sometimes refuses the feed from cloud servers (the GitHub runner), so: try the channel feed and the
+// channel's uploads-playlist feed, a few times each. If every try fails, warn and keep the links we already have
+// (exit 0), so the site still rebuilds and the run doesn't fail for a reason that isn't ours.
+const FEEDS = [FEED, `https://www.youtube.com/feeds/videos.xml?playlist_id=UU${CHANNEL_ID.slice(2)}`];
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+let xml = "";
+const tried = [];
+for (const url of FEEDS) {
+  for (let i = 0; i < 3 && !xml; i++) {
+    try {
+      const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 (compatible; fitzandgauge-site-updater)", "Accept-Language": "en-US" } });
+      if (res.ok) xml = await res.text();
+      else tried.push(`${url} -> HTTP ${res.status}`);
+    } catch (e) {
+      tried.push(`${url} -> ${e.message}`);
+    }
+    if (!xml) await sleep(4000 * (i + 1));
+  }
+  if (xml) break;
+}
+if (!xml) {
+  console.log(`::warning::Could not read the YouTube feed; keeping the existing video links.%0A${tried.join("%0A")}`);
+  process.exit(0);
+}
 const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
   title: decode(e.match(/<title>([^<]*)<\/title>/)?.[1] ?? ""),
   url: e.match(/<link rel="alternate" href="([^"]+)"/)?.[1] ?? "",
