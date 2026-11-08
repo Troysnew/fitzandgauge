@@ -59,7 +59,7 @@ const readSources = (slug) => {
 // so each episode's YouTube link is added when it goes live: by hand in episodes.json, or automatically in videos.json.
 const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 // Change this by hand whenever the privacy text changes (a build date would change every day the Action runs).
-const PRIVACY_UPDATED = "2026-11-05";
+const PRIVACY_UPDATED = "2026-11-07";
 const byDate = [...episodes].sort((a, b) => a.premiere.localeCompare(b.premiere));
 const released = byDate.filter((e) => e.video);
 const featured = released.at(-1) || byDate[0];
@@ -113,6 +113,7 @@ const head = ({ title, description, prefix, canonical, noindex, image, ld }) => 
 <link rel="apple-touch-icon" href="${prefix}img/apple-touch-icon.png" />
 <link rel="preload" href="${prefix}fonts/fredoka-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="${prefix}styles.css?v=${ASSET_VERSION}" />
+<script data-goatcounter="https://fitzandgauge.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>`;
 
@@ -349,11 +350,13 @@ const service = form.service ? esc(form.service) : "a form-delivery service";
 const privacyHtml = `${head({ title: "Privacy | Fitz & Gauge", description: "What the Fitz & Gauge website collects (only the question you send) and how we use it.", prefix: "", canonical: "privacy.html" })}
 ${header("", "sub")}
 <main id="home" class="subpage">
-${subHero({ prefix: "", back: "index.html", backLabel: "Back to the workshop", kicker: "Privacy", title: "We only collect your question.", text: "Short version: the question form asks for one thing, your question. No names, no emails, no accounts, no tracking." })}
+${subHero({ prefix: "", back: "index.html", backLabel: "Back to the workshop", kicker: "Privacy", title: "We only collect your question.", text: "Short version: the question form asks for one thing, your question. No names, no emails, no accounts, no cookies." })}
 <section class="paper sub-body"><div class="wrap narrow"><div class="prose">
 <h2>What we collect</h2>
 <p>When you use the question form, we receive <strong>only the text of your question</strong>. The form doesn't ask for your name, email address, age, location or anything else about you. Please don't include personal information in your question. If a question does include any, we won't use it and we delete it.</p>
-<p>This website doesn't use cookies, analytics, ads or tracking. Its fonts and images are served from this site, not from third parties.</p>
+<p>This website doesn't use cookies or ads. Its fonts and images are served from this site, not from third parties.</p>
+<h2>Visitor counts</h2>
+<p>We count visits with <a href="https://www.goatcounter.com" ${ext}>GoatCounter</a>, a privacy-friendly analytics service, so we know which episodes people read. It doesn't use cookies and doesn't follow you across other sites. It records things like which page was viewed, the site you came from, your browser and screen size, and your approximate country; it doesn't store your IP address. See <a href="https://www.goatcounter.com/help/privacy" ${ext}>GoatCounter's privacy policy</a>.</p>
 <h2>How we use questions</h2>
 <p>We read questions to choose and research future episodes. We may feature a question in an episode or on this website, <strong>always without any name</strong>. We don't sell or share questions with anyone else.</p>
 <h2>How questions reach us</h2>

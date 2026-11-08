@@ -38,14 +38,40 @@ for (const url of FEEDS) {
   }
   if (xml) break;
 }
-if (!xml) {
-  console.log(`::warning::Could not read the YouTube feed; keeping the existing video links.%0A${tried.join("%0A")}`);
+let entries = xml
+  ? [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
+      title: decode(e.match(/<title>([^<]*)<\/title>/)?.[1] ?? ""),
+      url: e.match(/<link rel="alternate" href="([^"]+)"/)?.[1] ?? "",
+    }))
+  : [];
+// The feed also 404s at random (seen from a home connection on Nov 7, not only from GitHub). Backup: the channel's
+// public Shorts page, where each Short is a "shortsLockupViewModel" block with its title and video id.
+if (!entries.length) {
+  try {
+    const res = await fetch("https://www.youtube.com/@FitzAndGauge/shorts", { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "en-US" } });
+    const html = res.ok ? await res.text() : "";
+    entries = html.split("shortsLockupViewModel").slice(1).map((b) => {
+      const title = b.match(/"primaryText":\{"content":"((?:[^"\\]|\\.)*)"/)?.[1];
+      const id = b.match(/"videoId":"([\w-]{11})"/)?.[1];
+      return { title: title ? JSON.parse(`"${title}"`) : "", url: id ? `https://www.youtube.com/shorts/${id}` : "" };
+    }).filter((e) => e.title && e.url);
+    // Long Case Files live on the Videos page, as "videoRenderer" blocks (untested until the first one is public).
+    const vres = await fetch("https://www.youtube.com/@FitzAndGauge/videos", { headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "en-US" } });
+    const vhtml = vres.ok ? await vres.text() : "";
+    entries.push(...vhtml.split('"videoRenderer":{').slice(1).map((b) => {
+      const id = b.match(/"videoId":"([\w-]{11})"/)?.[1];
+      const title = b.match(/"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/)?.[1];
+      return { title: title ? JSON.parse(`"${title}"`) : "", url: id ? `https://www.youtube.com/watch?v=${id}` : "" };
+    }).filter((e) => e.title && e.url));
+    if (!entries.length) tried.push(`Shorts page -> HTTP ${res.status}, no Shorts found`);
+  } catch (e) {
+    tried.push(`Shorts page -> ${e.message}`);
+  }
+}
+if (!entries.length) {
+  console.log(`::warning::Could not read the YouTube feed or Shorts page; keeping the existing video links.%0A${tried.join("%0A")}`);
   process.exit(0);
 }
-const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
-  title: decode(e.match(/<title>([^<]*)<\/title>/)?.[1] ?? ""),
-  url: e.match(/<link rel="alternate" href="([^"]+)"/)?.[1] ?? "",
-}));
 
 const added = [];
 for (const ep of episodes) {
